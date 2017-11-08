@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1007267197964",
+    "firebase_url": "https://macauto-warning-project-9b251.firebaseio.com",
+    "project_id": "macauto-warning-project-9b251",
+    "storage_bucket": "macauto-warning-project-9b251.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1007267197964:android:7ae53c929242be70",
+        "android_client_info": {
+          "package_name": "com.macauto.macautowarning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1007267197964-3te31b323gvt9iti3hng8rad0f787pqs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUdWsIlrgcR3kDuQT07zBZZ3ofVXnXZyo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

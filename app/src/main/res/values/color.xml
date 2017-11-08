@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!-- default theme -->
+    <color name="action_bar_background">#791b57</color>
+    <color name="status_bar_color_menu_classic">#1c1c1c</color>
+
+
+
+</resources>
