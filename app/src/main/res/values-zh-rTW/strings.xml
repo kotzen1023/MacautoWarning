@@ -43,4 +43,25 @@
     <string name="date_thursday">星期四</string>
     <string name="date_friday">星期五</string>
     <string name="date_saturday">星期六</string>
+    <string name="type_all">全部</string>
+    <string name="type_head">類型</string>
+    <string name="type_equipment_anomalous">設備異常</string>
+    <string name="type_quality_anomalous">品質異常</string>
+    <string name="type_gauge_anomalous">檢具異常</string>
+    <string name="type_fixture_anomalous">治具異常</string>
+    <string name="type_starved_feeding">缺料異常</string>
+    <string name="macauto_go_out">外出人員</string>
+    <string name="emp_no">工號</string>
+    <string name="emp_name">姓名</string>
+    <string name="start_date">開始時間</string>
+    <string name="end_date">結束時間</string>
+    <string name="back_date">返回時間</string>
+    <string name="reason">事由</string>
+    <string name="location">地點</string>
+    <string name="car_type">交通工具</string>
+    <string name="car_no">車牌號碼</string>
+    <string name="car_or_moto">汽(機)車</string>
+    <string name="loding">讀取中...</string>
+    <string name="whogoesout_list_empty">目前無外出人員</string>
+    <string name="whogoesout_title">今日外出人員</string>
 </resources>

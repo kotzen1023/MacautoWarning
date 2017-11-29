@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-            <!--RelativeLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -55,20 +55,20 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageViewChatting"
+                    android:id="@+id/imageViewGoOut"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/ic_chat_white_48dp" />
+                    android:src="@drawable/ic_transfer_within_a_station_black_48dp" />
             </RelativeLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/macauto_chatting"
-                android:id="@+id/textChatting"
+                android:text="@string/macauto_go_out"
+                android:id="@+id/textGoOut"
                 android:layout_weight="1"
-                android:gravity="center_horizontal" /-->
+                android:gravity="center_horizontal" />
         </LinearLayout>
 
         <LinearLayout

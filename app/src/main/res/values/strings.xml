@@ -43,4 +43,25 @@
     <string name="date_thursday">Thursday</string>
     <string name="date_friday">Friday</string>
     <string name="date_saturday">Saturday</string>
+    <string name="type_all">All</string>
+    <string name="type_head">Type</string>
+    <string name="type_equipment_anomalous">Equipment Anomalous</string>
+    <string name="type_quality_anomalous">Quality Anomalous</string>
+    <string name="type_gauge_anomalous">Gauge Anomalous</string>
+    <string name="type_fixture_anomalous">Fixture Anomalous</string>
+    <string name="type_starved_feeding">Starved Feeding</string>
+    <string name="macauto_go_out">Go out List</string>
+    <string name="emp_no">No.</string>
+    <string name="emp_name">Name</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="back_date">Back Date</string>
+    <string name="reason">Reason</string>
+    <string name="location">Location</string>
+    <string name="car_type">Car Type</string>
+    <string name="car_no">Car No.</string>
+    <string name="car_or_moto">Car or Moto</string>
+    <string name="loding">Loading...</string>
+    <string name="whogoesout_list_empty">No one goes out now</string>
+    <string name="whogoesout_title">Today Outgoing Staff</string>
 </resources>

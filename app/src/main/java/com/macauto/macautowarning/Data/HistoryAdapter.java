@@ -105,46 +105,47 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
         }
 
 
-        HistoryItem item = items.get(position);
+        if (position < getCount()) {
 
-        //2017-09-29T16:28:59+08:00
+            HistoryItem item = items.get(position);
+
+            //2017-09-29T16:28:59+08:00
 
 
+            if (item != null) {
 
-        if (item != null) {
+                String splitter[] = item.getAnnounce_date().split("T");
+                String time_splitter[] = splitter[1].split("\\+");
 
-            String splitter[] = item.getAnnounce_date().split("T");
-            String time_splitter[] = splitter[1].split("\\+");
+                String end_date = time_splitter[0].substring(0, time_splitter[0].length() - 3);
 
-            String end_date = time_splitter[0].substring(0, time_splitter[0].length() -3);
+                Date date = null;
+                String newWord = item.getAnnounce_date().substring(0, 22) + item.getAnnounce_date().substring(23);
+                //Log.e(TAG, "before parse ==>"+newWord);
+                try {
 
-            Date date = null;
-            String newWord = item.getAnnounce_date().substring(0,22)+item.getAnnounce_date().substring(23);
-            //Log.e(TAG, "before parse ==>"+newWord);
-            try {
+                    date = DATE_FORMAT.parse(newWord);
+                    //Log.e(TAG, "After parse ==>"+date);
+                } catch (ParseException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 
-                date = DATE_FORMAT.parse(newWord);
-                //Log.e(TAG, "After parse ==>"+date);
-            } catch (ParseException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            //holder.date.setText(end_date);
-            if (current_date.substring(0,10).equals(splitter[0])) {
-                holder.day.setText(context.getResources().getString(R.string.date_today));
-                holder.date.setText(end_date);
-            } else {
-                if (date != null) {
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(date);
-                    holder.day.setText(splitter[0]);
-
-                    if (splitter[0].substring(0,4).equals(current_date.substring(0,4))) {
-                        holder.day.setText(splitter[0].substring(5,10));
-                    } else {
+                //holder.date.setText(end_date);
+                if (current_date.substring(0, 10).equals(splitter[0])) {
+                    holder.day.setText(context.getResources().getString(R.string.date_today));
+                    holder.date.setText(end_date);
+                } else {
+                    if (date != null) {
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(date);
                         holder.day.setText(splitter[0]);
-                    }
+
+                        if (splitter[0].substring(0, 4).equals(current_date.substring(0, 4))) {
+                            holder.day.setText(splitter[0].substring(5, 10));
+                        } else {
+                            holder.day.setText(splitter[0]);
+                        }
                     /*switch (c.get(Calendar.DAY_OF_WEEK)) {
                         case Calendar.SUNDAY:
                             holder.day.setText(context.getResources().getString(R.string.date_sunday));
@@ -170,22 +171,22 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
                         default:
                             break;
                     }*/
-                    holder.date.setText(end_date);
+                        holder.date.setText(end_date);
 
-                } else {
-                    holder.date.setText(splitter[0]+" " + end_date);
+                    } else {
+                        holder.date.setText(splitter[0] + " " + end_date);
+                    }
                 }
-            }
 
 
-            String msg;
-            if (item.getMsg_title() == null || item.getMsg_title().equals("")) {
-                msg = item.getMsg_code();
-            } else {
-                msg = item.getMsg_title();
-            }
+                String msg;
+                if (item.getMsg_title() == null || item.getMsg_title().equals("")) {
+                    msg = item.getMsg_code();
+                } else {
+                    msg = item.getMsg_title();
+                }
 
-            holder.msg.setText(msg);
+                holder.msg.setText(msg);
 
             /*if (!item.getMsg_title().equals("")) {
                 if (splitter.length == 2 && time_splitter.length == 3) {
@@ -198,14 +199,15 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
                 Log.e(TAG, "item.getMsg() == null");
             }*/
 
-            //holder.date.setText(item.getDate());
+                //holder.date.setText(item.getDate());
 
-            if (item.isRead_sp()) {
-                holder.action.setImageResource(R.drawable.star_green);
+                if (item.isRead_sp()) {
+                    holder.action.setImageResource(R.drawable.star_green);
 
-            } else {
-                holder.action.setImageResource(R.drawable.ic_fiber_new_black_48dp);
+                } else {
+                    holder.action.setImageResource(R.drawable.ic_fiber_new_black_48dp);
 
+                }
             }
         }
 

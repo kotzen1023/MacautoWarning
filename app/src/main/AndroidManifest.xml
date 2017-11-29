@@ -27,6 +27,8 @@
         <activity android:name=".HistoryShow"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".ErrorTimer"/>
+        <activity android:name=".WhoGoesOutActivity"/>
+        <activity android:name=".GoOutDataShow"/>
 
         <receiver android:enabled="true" android:name=".Receiver.Receive_BootCompleted">
             <intent-filter>
@@ -47,6 +49,7 @@
         <service android:name=".Service.LoginCheckService"/>
         <service android:name=".Service.GetMessageService"/>
         <service android:name=".Service.UpdateReadStatusService"/>
+        <service android:name=".Service.GetWhoGoesOutService"/>
     </application>
 
 </manifest>

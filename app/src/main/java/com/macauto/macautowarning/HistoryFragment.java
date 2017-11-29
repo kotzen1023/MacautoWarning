@@ -18,7 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 
 import com.macauto.macautowarning.Data.Constants;
@@ -34,6 +36,8 @@ import java.util.ArrayList;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.macauto.macautowarning.MainMenu.message_type_select;
+import static com.macauto.macautowarning.MainMenu.message_type_string;
 
 public class HistoryFragment extends Fragment {
     private static final String TAG = HistoryFragment.class.getName();
@@ -44,6 +48,7 @@ public class HistoryFragment extends Fragment {
 
     //public ArrayAdapter<Spanned> arrayAdapter = null;
     public static ArrayList<HistoryItem> historyItemArrayList = new ArrayList<>();
+    public static ArrayList<HistoryItem> typeSortedList = new ArrayList<>();
     public static ArrayList<HistoryItem> sortedNotifyList = new ArrayList<>();
     public static HistoryAdapter historyAdapter;
     //private ChangeListener changeListener = null;
@@ -65,6 +70,11 @@ public class HistoryFragment extends Fragment {
 
     private static String service_ip_address;
     private static String service_port;
+
+    private Spinner typeSpinner;
+    public ArrayAdapter<String> typeAdapter;
+
+    private static ArrayList<String> typeList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +102,62 @@ public class HistoryFragment extends Fragment {
 
         IntentFilter filter;
 
-        listView = (ListView) view.findViewById(R.id.listViewHistory);
+        listView =  view.findViewById(R.id.listViewHistory);
+
+        typeSpinner = view.findViewById(R.id.spinnerType);
+
+        typeList.clear();
+        typeList.add("全部");
+        typeList.add("設備異常");
+        typeList.add("品質異常");
+        typeList.add("檢具異常");
+        typeList.add("治具異常");
+        typeList.add("缺料異常");
+
+        typeAdapter = new ArrayAdapter<>(context, R.layout.myspinner, typeList);
+        typeSpinner.setAdapter(typeAdapter);
+
+
+
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                Log.d(TAG, "select "+position+" text = "+typeList.get(position));
+
+                message_type_select = position;
+                message_type_string = typeList.get(position);
+
+                //sortedNotifyList.clear();
+                typeSortedList.clear();
+
+                if (position != 0) {
+
+                    for (int i = 0; i < historyItemArrayList.size(); i++) {
+                        if (historyItemArrayList.get(i).getMsg_title() != null && historyItemArrayList.get(i).getMsg_title().contains(typeList.get(position))) {
+                            typeSortedList.add(historyItemArrayList.get(i));
+                        }
+                    }
+
+                    Intent intent = new Intent(Constants.ACTION.GET_TYPE_LIST_ACTION);
+                    context.sendBroadcast(intent);
+                } else {
+                    Intent intent = new Intent(Constants.ACTION.GET_ORIGINAL_LIST_ACTION);
+                    context.sendBroadcast(intent);
+                }
+
+                //meetingArrayAdapter = new MeetingArrayAdapter(context, R.layout.meeting_list_item, list);
+                //AllFragment.resetAdapter(list);
+                //AllFragment.listView.setAdapter(AllFragment.meetingArrayAdapter);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
         listView.setTextFilterEnabled(true);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -165,13 +230,23 @@ public class HistoryFragment extends Fragment {
                     }
 
                     ShortcutBadger.applyCount(context, badgeCount);
-                }
-
-                else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_HISTORY_LIST_SORT_COMPLETE)) {
+                } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_HISTORY_LIST_SORT_COMPLETE)) {
                     historyAdapter = new HistoryAdapter(context, R.layout.history_item, sortedNotifyList);
                     listView.setAdapter(historyAdapter);
 
+                    typeSortedList.clear();
+                } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_ORIGINAL_LIST_ACTION)) {
+                    historyAdapter = new HistoryAdapter(context, R.layout.history_item, historyItemArrayList);
+                    listView.setAdapter(historyAdapter);
 
+                    sortedNotifyList.clear();
+                    typeSortedList.clear();
+
+                } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_TYPE_LIST_ACTION)) {
+                    historyAdapter = new HistoryAdapter(context, R.layout.history_item, typeSortedList);
+                    listView.setAdapter(historyAdapter);
+
+                    sortedNotifyList.clear();
                 }
             }
         };
@@ -181,6 +256,8 @@ public class HistoryFragment extends Fragment {
             filter.addAction(Constants.ACTION.GET_NEW_NOTIFICATION_ACTION);
             filter.addAction(Constants.ACTION.GET_HISTORY_LIST_SORT_COMPLETE);
             filter.addAction(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE);
+            filter.addAction(Constants.ACTION.GET_ORIGINAL_LIST_ACTION);
+            filter.addAction(Constants.ACTION.GET_TYPE_LIST_ACTION);
             context.registerReceiver(mReceiver, filter);
             isRegister = true;
             Log.d(TAG, "registerReceiver mReceiver");
@@ -216,6 +293,9 @@ public class HistoryFragment extends Fragment {
     public void onDestroyView() {
         Log.i(TAG, "onDestroy");
 
+        typeList.clear();
+        historyAdapter.notifyDataSetChanged();
+
         if (isRegister && mReceiver != null) {
             try {
                 context.unregisterReceiver(mReceiver);
@@ -225,6 +305,8 @@ public class HistoryFragment extends Fragment {
             isRegister = false;
             mReceiver = null;
         }
+
+
 
         super.onDestroyView();
     }

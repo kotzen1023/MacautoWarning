@@ -29,6 +29,7 @@ import com.macauto.macautowarning.Data.Constants;
 
 import static com.macauto.macautowarning.HistoryFragment.historyItemArrayList;
 import static com.macauto.macautowarning.HistoryFragment.sortedNotifyList;
+import static com.macauto.macautowarning.HistoryFragment.typeSortedList;
 
 public class MainMenu extends AppCompatActivity {
     private static final String TAG = MainMenu.class.getName();
@@ -38,6 +39,8 @@ public class MainMenu extends AppCompatActivity {
 
     public static MenuItem item_search;
     //public static Locale default_locale;
+    public static int message_type_select = 0;
+    public static String message_type_string = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -274,29 +277,51 @@ public class MainMenu extends AppCompatActivity {
             sortedNotifyList.clear();
             if (!newText.equals("")) {
 
-
-
-                //ArrayList<PasswordKeeperItem> list = new ArrayList<PasswordKeeperItem>();
-                for (int i = 0; i < historyItemArrayList.size(); i++) {
-                    if (historyItemArrayList.get(i).getMsg_title() != null && historyItemArrayList.get(i).getMsg_title().contains(newText)) {
-                        sortedNotifyList.add(historyItemArrayList.get(i));
-                    } else if (historyItemArrayList.get(i).getMsg_content() != null && historyItemArrayList.get(i).getMsg_content().contains(newText)) {
-                        sortedNotifyList.add(historyItemArrayList.get(i));
-                    } else if (historyItemArrayList.get(i).getAnnounce_date() != null && historyItemArrayList.get(i).getAnnounce_date().contains(newText)) {
-                        sortedNotifyList.add(historyItemArrayList.get(i));
+                if (message_type_select == 0) { //original list
+                    for (int i = 0; i < historyItemArrayList.size(); i++) {
+                        if (historyItemArrayList.get(i).getMsg_title() != null && historyItemArrayList.get(i).getMsg_title().contains(newText)) {
+                            sortedNotifyList.add(historyItemArrayList.get(i));
+                        } else if (historyItemArrayList.get(i).getMsg_content() != null && historyItemArrayList.get(i).getMsg_content().contains(newText)) {
+                            sortedNotifyList.add(historyItemArrayList.get(i));
+                        } else if (historyItemArrayList.get(i).getAnnounce_date() != null && historyItemArrayList.get(i).getAnnounce_date().contains(newText)) {
+                            sortedNotifyList.add(historyItemArrayList.get(i));
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < typeSortedList.size(); i++) {
+                        if (typeSortedList.get(i).getMsg_title() != null && typeSortedList.get(i).getMsg_title().contains(newText)) {
+                            sortedNotifyList.add(typeSortedList.get(i));
+                        } else if (typeSortedList.get(i).getMsg_content() != null && typeSortedList.get(i).getMsg_content().contains(newText)) {
+                            sortedNotifyList.add(typeSortedList.get(i));
+                        } else if (typeSortedList.get(i).getAnnounce_date() != null && typeSortedList.get(i).getAnnounce_date().contains(newText)) {
+                            sortedNotifyList.add(typeSortedList.get(i));
+                        }
                     }
                 }
+
+                intent = new Intent(Constants.ACTION.GET_HISTORY_LIST_SORT_COMPLETE);
+                sendBroadcast(intent);
+
+                //ArrayList<PasswordKeeperItem> list = new ArrayList<PasswordKeeperItem>();
+
 
                 //passwordKeeperArrayAdapter = new PasswordKeeperArrayAdapter(Password_Keeper.this, R.layout.passwd_keeper_browsw_item, list);
                 //listView.setAdapter(passwordKeeperArrayAdapter);
 
             } else {
-                //ArrayList<PasswordKeeperItem> list = new ArrayList<PasswordKeeperItem>();
+                if (message_type_select == 0) {
 
-                for (int i = 0; i < historyItemArrayList.size(); i++) {
-                    //sortedNotifyList.add(historyItemArrayList.get(i));
-                    sortedNotifyList.add(historyItemArrayList.get(i));
+                    intent = new Intent(Constants.ACTION.GET_ORIGINAL_LIST_ACTION);
+                    sendBroadcast(intent);
+                } else {
+                    for (int i = 0; i < typeSortedList.size(); i++) {
+                        if (typeSortedList.get(i).getMsg_title() != null && typeSortedList.get(i).getMsg_title().contains(message_type_string)) {
+                            sortedNotifyList.add(typeSortedList.get(i));
+                        }
+                    }
 
+                    intent = new Intent(Constants.ACTION.GET_HISTORY_LIST_SORT_COMPLETE);
+                    sendBroadcast(intent);
                 }
 
 
@@ -307,8 +332,7 @@ public class MainMenu extends AppCompatActivity {
             //meetingArrayAdapter = new MeetingArrayAdapter(context, R.layout.meeting_list_item, list);
             //AllFragment.resetAdapter(list);
             //AllFragment.listView.setAdapter(AllFragment.meetingArrayAdapter);
-            intent = new Intent(Constants.ACTION.GET_HISTORY_LIST_SORT_COMPLETE);
-            sendBroadcast(intent);
+
 
 
             return false;
