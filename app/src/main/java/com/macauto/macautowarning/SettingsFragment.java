@@ -51,10 +51,10 @@ public class SettingsFragment extends Fragment {
         final  View view = inflater.inflate(R.layout.settings_fragment, container, false);
 
         ImageView imgLogout = view.findViewById(R.id.imageViewLogout);
-        ImageView imgGoOut = view.findViewById(R.id.imageViewGoOut);
+        //ImageView imgGoOut = view.findViewById(R.id.imageViewGoOut);
 
         TextView txtLogout = view.findViewById(R.id.textLogout);
-        TextView txtGoOut = view.findViewById(R.id.textGoOut);
+        //TextView txtGoOut = view.findViewById(R.id.textGoOut);
 
         context = getContext();
 
@@ -132,7 +132,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        imgGoOut.setOnClickListener(new View.OnClickListener() {
+        /*imgGoOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), WhoGoesOutActivity.class);
@@ -148,7 +148,7 @@ public class SettingsFragment extends Fragment {
                 getActivity().startActivity(intent);
 
             }
-        });
+        });*/
 
         return view;
     }

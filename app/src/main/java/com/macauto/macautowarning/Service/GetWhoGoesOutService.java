@@ -2,46 +2,41 @@ package com.macauto.macautowarning.Service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.Build;
+
 import android.util.Log;
-import android.util.Xml;
+
 
 import com.macauto.macautowarning.Data.Constants;
 import com.macauto.macautowarning.Data.GoOutData;
-import com.macauto.macautowarning.Data.HistoryItem;
+
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
-import org.w3c.dom.Document;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-
-import static com.macauto.macautowarning.HistoryFragment.historyItemArrayList;
-import static com.macauto.macautowarning.WhoGoesOutActivity.goOutList;
+import static com.macauto.macautowarning.HistoryFragment.goOutList;
 
 
 public class GetWhoGoesOutService extends IntentService {
 
     public static final String TAG = "GetWhoGoesOutService";
 
-    public static final String SERVICE_IP = "172.17.8.146";
+    //public static final String SERVICE_IP = "172.17.8.146";
 
-    public static final String SERVICE_PORT = "8080";
+    //public static final String SERVICE_PORT = "8080";
+
+    //public static final String SERVICE_IP = "service_ip_address";
+
+    //public static final String SERVICE_PORT = "service_port";
 
     private static final String NAMESPACE = "http://it.macauto.com"; // 命名空間
 
     private static final String METHOD_NAME = "getDataBySelect"; // 方法名稱
 
-    private static final String SOAP_ACTION1 = "http://172.17.8.146:8080/WhoisoutSOAP/services/getDataBySelect"; // SOAP_ACTION
+    //private static final String SOAP_ACTION1 = "http://172.17.8.146:8080/WhoisoutSOAP/services/getDataBySelect"; // SOAP_ACTION
+    private static String SOAP_ACTION1 = ""; // SOAP_ACTION
 
     private static int date_select = 0;
 
@@ -72,13 +67,14 @@ public class GetWhoGoesOutService extends IntentService {
 
         Log.i(TAG, "Handle");
 
-        String account;
-        String device_id;
+        //String account;
+        //String device_id;
 
         //account = intent.getStringExtra("ACCOUNT");
         //device_id = intent.getStringExtra("DEVICE_ID");
-        //String service_ip = intent.getStringExtra(SERVICE_IP);
-        //String service_port = intent.getStringExtra(SERVICE_PORT);
+        String service_ip = intent.getStringExtra("SERVICE_IP");
+        //String service_port = intent.getStringExtra("SERVICE_PORT");
+        String service_port_no2 = intent.getStringExtra("SERVICE_PORT_NO2");
         String dateSelect = intent.getStringExtra("DATE_SELECT");
         Log.e(TAG, "Get date : "+dateSelect);
         if (dateSelect != null) {
@@ -87,7 +83,7 @@ public class GetWhoGoesOutService extends IntentService {
             date_select = 0;
         }
 
-        String combine_url = "http://"+SERVICE_IP+":"+SERVICE_PORT+"/WhoisoutSOAP/services/GetWhoGoesOutServiceImpl";
+        String combine_url = "http://"+service_ip+":"+service_port_no2+"/WhoisoutSOAP/services/GetWhoGoesOutServiceImpl";
 
         if (intent.getAction().equals(Constants.ACTION.GET_WHOGOESOUT_LIST_ACTION)) {
             Log.i(TAG, "GET_WHOGOESOUT_LIST_ACTION");
@@ -308,122 +304,5 @@ public class GetWhoGoesOutService extends IntentService {
         sendBroadcast(intent);
     }
 
-    public void LoadAndParseXML(InputStream xmlString) {
 
-        //notifyList.clear();
-        historyItemArrayList.clear();
-        XmlPullParser pullParser = Xml.newPullParser();
-        //int i=0;
-        //String value="";
-        String tag_start, tag_value="";
-        //boolean start_get_item_from_tag = false;
-        try {
-            pullParser.setInput(xmlString, "utf-8");
-
-            //利用eventType來判斷目前分析到XML是哪一個部份
-            int eventType = pullParser.getEventType();
-            //XmlPullParser.END_DOCUMENT表示已經完成分析XML
-            HistoryItem item = null;
-            //ArrayList<String> myArrayList = new ArrayList<>();
-
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                //i++;
-                //XmlPullParser.START_TAG表示目前分析到的是XML的Tag，如<title>
-
-                if (eventType == XmlPullParser.START_TAG) {
-                    tag_start = pullParser.getName();
-                    Log.e(TAG, "<"+tag_start+">");
-                    if (tag_start.equals("fxs")) {
-                        Log.i(TAG, "=== Start of Message record ===");
-                        //myArrayList.clear();
-                        item = new HistoryItem();
-                    }
-                }
-                //XmlPullParser.TEXT表示目前分析到的是XML Tag的值，如：台南美食吃不完
-                if (eventType == XmlPullParser.TEXT) {
-                    tag_value = pullParser.getText();
-                    //Log.e(TAG, "value = "+tag_value);
-
-                    //tv02.setText(tv02.getText() + ", " + value);
-                }
-
-                if (eventType == XmlPullParser.END_TAG) {
-                    String name = pullParser.getName();
-                    Log.e(TAG, "value = "+tag_value);
-                    //myArrayList.add(tag_value);
-                    Log.e(TAG, "</"+name+">");
-
-                    if (name != null && item != null) {
-
-                        switch (name) {
-                            case "message_id":
-                                item.setMsg_id(tag_value);
-                                break;
-                            case "message_code":
-                                item.setMsg_code(tag_value);
-                                break;
-                            case "message_title":
-                                item.setMsg_title(tag_value);
-                                break;
-                            case "message_content":
-                                item.setMsg_content(tag_value);
-                                break;
-                            case "announce_date":
-                                item.setAnnounce_date(tag_value);
-                                break;
-                            case "internal_doc_no":
-                                item.setInternal_doc_no(tag_value);
-                                break;
-                            case "internal_part_no":
-                                item.setInternal_part_no(tag_value);
-                                break;
-                            case "internal_model_no":
-                                item.setInternal_model_no(tag_value);
-                                break;
-                            case "internal_machine_no":
-                                item.setInternal_machine_no(tag_value);
-                                break;
-                            case "internal_plant_no":
-                                item.setInternal_plant_no(tag_value);
-                                break;
-                            case "announcer":
-                                item.setAnnouncer(tag_value);
-                                break;
-
-                            case "ime_code":
-                                item.setIme_code(tag_value);
-                                break;
-
-                            case "read_sp":
-                                if (tag_value.equals("Y")) {
-                                    item.setRead_sp(true);
-                                } else {
-                                    item.setRead_sp(false);
-                                }
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        if (name.equals("fxs")) {
-                            Log.i(TAG, "=== End of Message record ===");
-                            historyItemArrayList.add(item);
-                        }
-                    }
-                }
-                //分析下一個XML Tag
-                try {
-                    eventType = pullParser.next();
-                } catch (XmlPullParserException ep) {
-                    ep.printStackTrace();
-                }
-            }
-
-        } catch (XmlPullParserException | IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 }

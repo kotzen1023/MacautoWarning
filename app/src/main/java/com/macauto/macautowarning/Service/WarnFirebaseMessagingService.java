@@ -107,6 +107,13 @@ public class WarnFirebaseMessagingService extends FirebaseMessagingService {
         sendBroadcast(newNotifyIntent);
 
     }
+
+    /*
+        從申請序號1703010003的需求, 下方handleIntent()的function為接收推送通知, 並顯示於手機狀態列.
+
+    */
+
+
     @Override
     public void handleIntent(Intent intent) {
         Log.d(TAG, "handleIntent");

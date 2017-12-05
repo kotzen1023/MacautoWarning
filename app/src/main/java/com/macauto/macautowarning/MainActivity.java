@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
         String default_service_address = pref.getString("DEFAULT_SERVICE_ADDRESS", "60.249.239.47");
         String default_service_port = pref.getString("DEFAULT_SERVICE_PORT", "9571");
+        String default_service_port_no2 = pref.getString("DEFAULT_SERVICE_PORT_NO2", "8080");
 
 
         if (wifi_mac.equals("")) {
@@ -178,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.putString("WIFIMAC", wifi_mac);
                 editor.putString("DEFAULT_SERVICE_ADDRESS", default_service_address);
                 editor.putString("DEFAULT_SERVICE_PORT", default_service_port);
+                editor.putString("DEFAULT_SERVICE_PORT_NO2", default_service_port_no2);
                 editor.apply();
             }
         }

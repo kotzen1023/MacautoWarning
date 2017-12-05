@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-            <RelativeLayout
+            <!--RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -68,7 +68,7 @@
                 android:text="@string/macauto_go_out"
                 android:id="@+id/textGoOut"
                 android:layout_weight="1"
-                android:gravity="center_horizontal" />
+                android:gravity="center_horizontal" /-->
         </LinearLayout>
 
         <LinearLayout
