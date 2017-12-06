@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity{
     private static String deviceId;
     private static String service_ip_address;
     private static String service_port;
+    private static String service_port_no2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +125,7 @@ public class LoginActivity extends AppCompatActivity{
         //get default service ip and port
         service_ip_address = pref.getString("DEFAULT_SERVICE_ADDRESS", "60.249.239.47");
         service_port = pref.getString("DEFAULT_SERVICE_PORT", "9571");
+        service_port_no2 = pref.getString("DEFAULT_SERVICE_PORT_NO2", "9572");
 
         if (login_error) {
             Intent mainIntent = new Intent(LoginActivity.this, ErrorTimer.class);

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.ShortcutManager;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -240,23 +240,24 @@ public class HistoryFragment extends Fragment {
                 } else {
                     HistoryItem item = historyAdapter.getItem(position);
 
-                    if (item.isRead_sp()) {
-                        Log.d(TAG, "read sp true");
-                    } else {
-                        item.setRead_sp(true);
-
-                        Intent intent = new Intent(context, UpdateReadStatusService.class);
-                        intent.setAction(Constants.ACTION.UPDATE_MESSAGE_READ_SP_ACTION);
-                        intent.putExtra("ACCOUNT", account);
-                        intent.putExtra("DEVICE_ID", device_id);
-                        intent.putExtra("MESSAGE_ID", item.getMsg_id());
-                        intent.putExtra("service_ip_address", service_ip_address);
-                        intent.putExtra("service_port", service_port);
-                        context.startService(intent);
-                    }
-
-
                     if (item != null) {
+
+                        if (item.isRead_sp()) {
+                            Log.d(TAG, "read sp true");
+                        } else {
+                            item.setRead_sp(true);
+
+                            Intent intent = new Intent(context, UpdateReadStatusService.class);
+                            intent.setAction(Constants.ACTION.UPDATE_MESSAGE_READ_SP_ACTION);
+                            intent.putExtra("ACCOUNT", account);
+                            intent.putExtra("DEVICE_ID", device_id);
+                            intent.putExtra("MESSAGE_ID", item.getMsg_id());
+                            intent.putExtra("service_ip_address", service_ip_address);
+                            intent.putExtra("service_port", service_port);
+                            context.startService(intent);
+                        }
+
+
                         Intent intent = new Intent(context, HistoryShow.class);
                         intent.putExtra("HISTORY_MSG_ID", item.getMsg_id());
                         intent.putExtra("HISTORY_MSG_CODE", item.getMsg_code());
@@ -433,8 +434,8 @@ public class HistoryFragment extends Fragment {
 
         Log.i(TAG, "onResume");
 
-        if (typeAdapter != null)
-            typeSpinner.setSelection(0);
+        //if (typeAdapter != null)
+        //    typeSpinner.setSelection(0);
 
         /*if (sortedNotifyList.size() > 0) {
             historyAdapter = new HistoryAdapter(context, R.layout.history_item, sortedNotifyList);
@@ -443,8 +444,8 @@ public class HistoryFragment extends Fragment {
             historyAdapter = new HistoryAdapter(context, R.layout.history_item, InitData.notifyList);
             listView.setAdapter(historyAdapter);
         }*/
-        if (historyAdapter != null)
-            historyAdapter.notifyDataSetChanged();
+        //if (historyAdapter != null)
+        //    historyAdapter.notifyDataSetChanged();
 
 
 

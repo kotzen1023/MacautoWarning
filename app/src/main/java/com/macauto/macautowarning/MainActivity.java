@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
         String default_service_address = pref.getString("DEFAULT_SERVICE_ADDRESS", "60.249.239.47");
         String default_service_port = pref.getString("DEFAULT_SERVICE_PORT", "9571");
-        String default_service_port_no2 = pref.getString("DEFAULT_SERVICE_PORT_NO2", "8080");
+        String default_service_port_no2 = pref.getString("DEFAULT_SERVICE_PORT_NO2", "9572");
 
 
         if (wifi_mac.equals("")) {
