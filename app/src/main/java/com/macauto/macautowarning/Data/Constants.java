@@ -16,6 +16,9 @@ public class Constants {
         String GET_MESSAGE_LIST_ACTION = "com.macauto.MacautoWarning.GetMessageListAction";
         String GET_MESSAGE_LIST_COMPLETE = "com.macauto.MacautoWarning.GetMessageListComplete";
 
+        String GET_MESSAGE_LIST_CLEAR = "com.macauto.MacautoWarning.GetMessageListClear";
+        String GET_MESSAGE_DATA = "com.macauto.MacautoWarning.GetMessageData";
+
         String UPDATE_MESSAGE_READ_SP_ACTION = "com.macauto.MacautoWarning.UpdateMessageReadSPAction";
 
         String GET_WHOGOESOUT_LIST_ACTION = "com.macauto.MacautoWarning.GetWhoGoesOutListAction";

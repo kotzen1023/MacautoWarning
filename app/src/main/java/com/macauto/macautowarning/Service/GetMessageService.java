@@ -130,6 +130,7 @@ public class GetMessageService extends IntentService {
             HttpTransportSE httpTransport = new HttpTransportSE(combine_url);
             httpTransport.debug = true; // 測試模式使用
 
+
             httpTransport.call(SOAP_ACTION1, envelope); // 設定 SoapAction 所需的標題欄位
 
 
@@ -189,7 +190,11 @@ public class GetMessageService extends IntentService {
     public void LoadAndParseXML(InputStream xmlString) {
 
         //notifyList.clear();
-        historyItemArrayList.clear();
+        //historyItemArrayList.clear();
+
+        Intent intentClear = new Intent(Constants.ACTION.GET_MESSAGE_LIST_CLEAR);
+        sendBroadcast(intentClear);
+
         XmlPullParser pullParser = Xml.newPullParser();
         //int i=0;
         //String value="";
@@ -286,7 +291,22 @@ public class GetMessageService extends IntentService {
 
                         if (name.equals("fxs")) {
                             Log.i(TAG, "=== End of Message record ===");
-                            historyItemArrayList.add(item);
+                            //historyItemArrayList.add(item);
+                            Intent intentData = new Intent(Constants.ACTION.GET_MESSAGE_DATA);
+                            intentData.putExtra("message_id", item.getMsg_id());
+                            intentData.putExtra("message_code", item.getMsg_code());
+                            intentData.putExtra("message_title", item.getMsg_title());
+                            intentData.putExtra("message_content", item.getMsg_content());
+                            intentData.putExtra("announce_date", item.getAnnounce_date());
+                            intentData.putExtra("internal_doc_no", item.getInternal_doc_no());
+                            intentData.putExtra("internal_part_no", item.getInternal_part_no());
+                            intentData.putExtra("internal_model_no", item.getInternal_model_no());
+                            intentData.putExtra("internal_machine_no", item.getInternal_machine_no());
+                            intentData.putExtra("internal_plant_no", item.getInternal_plant_no());
+                            intentData.putExtra("announcer", item.getAnnouncer());
+                            intentData.putExtra("ime_code", item.getIme_code());
+                            intentData.putExtra("read_sp", item.isRead_sp());
+                            sendBroadcast(intentData);
                         }
                     }
                 }

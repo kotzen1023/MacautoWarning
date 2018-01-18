@@ -107,7 +107,7 @@ public class HistoryFragment extends Fragment {
         device_id = pref.getString("WIFIMAC", "");
         service_ip_address = pref.getString("DEFAULT_SERVICE_ADDRESS", "60.249.239.47");
         service_port = pref.getString("DEFAULT_SERVICE_PORT", "9571");
-        service_port_no2 = pref.getString("DEFAULT_SERVICE_PORT_NO2", "8080");
+        service_port_no2 = pref.getString("DEFAULT_SERVICE_PORT_NO2", "9572");
 
         IntentFilter filter;
 
@@ -257,6 +257,9 @@ public class HistoryFragment extends Fragment {
                             context.startService(intent);
                         }
 
+                        if (historyAdapter != null)
+                            historyAdapter.notifyDataSetChanged();
+
 
                         Intent intent = new Intent(context, HistoryShow.class);
                         intent.putExtra("HISTORY_MSG_ID", item.getMsg_id());
@@ -288,14 +291,14 @@ public class HistoryFragment extends Fragment {
                     if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_NEW_NOTIFICATION_ACTION)) {
                         Log.d(TAG, "receive brocast !");
 
-                        if (message_type_select == 6) {
+                        if (message_type_select == typeList.size() - 1) {
                             Intent gointent = new Intent(context, GetWhoGoesOutService.class);
                             gointent.setAction(Constants.ACTION.GET_WHOGOESOUT_LIST_ACTION);
                             gointent.putExtra("DATE_SELECT", "0");
                             gointent.putExtra("ACCOUNT", account);
                             gointent.putExtra("DEVICE_ID", device_id);
-                            gointent.putExtra("service_ip_address", service_ip_address);
-                            gointent.putExtra("service_port", service_port);
+                            gointent.putExtra("SERVICE_IP", service_ip_address);
+                            gointent.putExtra("SERVICE_PORT_NO2", service_port_no2);
                             context.startService(gointent);
                         } else {
 
@@ -314,8 +317,11 @@ public class HistoryFragment extends Fragment {
                         Log.d(TAG, "receive brocast GET_MESSAGE_LIST_COMPLETE!");
 
                         if (message_type_select == 0) {
-                            historyAdapter = new HistoryAdapter(context, R.layout.history_item, historyItemArrayList);
-                            listView.setAdapter(historyAdapter);
+                            //historyAdapter = new HistoryAdapter(context, R.layout.history_item, historyItemArrayList);
+                            //listView.setAdapter(historyAdapter);
+                            if (historyAdapter != null)
+                                historyAdapter.notifyDataSetChanged();
+                            Log.d(TAG, "size = "+historyItemArrayList.size());
                         }
 
 
@@ -357,6 +363,80 @@ public class HistoryFragment extends Fragment {
                         if (goOutList.size() == 0) {
                             toast(getResources().getString(R.string.whogoesout_list_empty));
                         }
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_MESSAGE_LIST_CLEAR)) {
+                        Log.d(TAG, "receive brocast GET_MESSAGE_LIST_CLEAR!");
+                        if (historyAdapter != null)
+                            historyAdapter.notifyDataSetChanged();
+
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_MESSAGE_DATA)) {
+                        Log.d(TAG, "receive brocast GET_MESSAGE_DATA!");
+                        /*
+                        case "message_id":
+                                item.setMsg_id(tag_value);
+                                break;
+                            case "message_code":
+                                item.setMsg_code(tag_value);
+                                break;
+                            case "message_title":
+                                item.setMsg_title(tag_value);
+                                break;
+                            case "message_content":
+                                item.setMsg_content(tag_value);
+                                break;
+                            case "announce_date":
+                                item.setAnnounce_date(tag_value);
+                                break;
+                            case "internal_doc_no":
+                                item.setInternal_doc_no(tag_value);
+                                break;
+                            case "internal_part_no":
+                                item.setInternal_part_no(tag_value);
+                                break;
+                            case "internal_model_no":
+                                item.setInternal_model_no(tag_value);
+                                break;
+                            case "internal_machine_no":
+                                item.setInternal_machine_no(tag_value);
+                                break;
+                            case "internal_plant_no":
+                                item.setInternal_plant_no(tag_value);
+                                break;
+                            case "announcer":
+                                item.setAnnouncer(tag_value);
+                                break;
+
+                            case "ime_code":
+                                item.setIme_code(tag_value);
+                                break;
+
+                            case "read_sp":
+                                if (tag_value.equals("Y")) {
+                                    item.setRead_sp(true);
+                                } else {
+                                    item.setRead_sp(false);
+                                }
+                                break;
+                         */
+
+
+                        HistoryItem item = new HistoryItem();
+                        item.setMsg_id(intent.getExtras().getString("message_id"));
+                        item.setMsg_code(intent.getExtras().getString("message_code"));
+                        item.setMsg_title(intent.getExtras().getString("message_title"));
+                        item.setMsg_content(intent.getExtras().getString("message_content"));
+                        item.setAnnounce_date(intent.getExtras().getString("announce_date"));
+                        item.setInternal_doc_no(intent.getExtras().getString("internal_doc_no"));
+                        item.setInternal_part_no(intent.getExtras().getString("internal_part_no"));
+                        item.setInternal_model_no(intent.getExtras().getString("internal_model_no"));
+                        item.setInternal_machine_no(intent.getExtras().getString("internal_machine_no"));
+                        item.setInternal_plant_no(intent.getExtras().getString("internal_plant_no"));
+                        item.setAnnouncer(intent.getExtras().getString("announcer"));
+                        item.setIme_code(intent.getExtras().getString("ime_code"));
+                        item.setRead_sp(intent.getExtras().getBoolean("read_sp"));
+
+
+                        historyItemArrayList.add(item);
                     }
                 }
             }
@@ -370,6 +450,8 @@ public class HistoryFragment extends Fragment {
             filter.addAction(Constants.ACTION.GET_ORIGINAL_LIST_ACTION);
             filter.addAction(Constants.ACTION.GET_TYPE_LIST_ACTION);
             filter.addAction(Constants.ACTION.GET_WHOGOESOUT_LIST_COMPLETE);
+            filter.addAction(Constants.ACTION.GET_MESSAGE_LIST_CLEAR);
+            filter.addAction(Constants.ACTION.GET_MESSAGE_DATA);
             context.registerReceiver(mReceiver, filter);
             isRegister = true;
             Log.d(TAG, "registerReceiver mReceiver");
@@ -406,7 +488,13 @@ public class HistoryFragment extends Fragment {
         Log.i(TAG, "onDestroyView");
 
         typeList.clear();
-        typeAdapter.notifyDataSetChanged();
+
+        if (message_type_select == 0) {
+            historyItemArrayList.clear();
+            typeAdapter.notifyDataSetChanged();
+        }
+
+
 
 
         if (isRegister && mReceiver != null) {
