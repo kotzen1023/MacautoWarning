@@ -88,9 +88,12 @@ public class SettingsFragment extends Fragment {
                         editor.putString("PASSWORD", "");
                         editor.apply();
 
-                        Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                        getActivity().startActivity(intent);
-                        getActivity().finish();
+                        if (getActivity() != null) {
+
+                            Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                            getActivity().startActivity(intent);
+                            getActivity().finish();
+                        }
 
                     }
                 });
@@ -123,9 +126,12 @@ public class SettingsFragment extends Fragment {
                         editor.putString("PASSWORD", "");
                         editor.apply();
 
-                        Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                        getActivity().startActivity(intent);
-                        getActivity().finish();
+                        if (getActivity() != null) {
+
+                            Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                            getActivity().startActivity(intent);
+                            getActivity().finish();
+                        }
 
                     }
                 });
