@@ -10,22 +10,20 @@ import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+
 import java.util.Map;
-import java.util.TimeZone;
+
 
 
 public class GoOutDataShow extends Activity {
     private static final String TAG = GoOutDataShow.class.getName();
 
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ", Locale.TAIWAN);
+    //DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ", Locale.TAIWAN);
 
 
     public void onCreate(Bundle savedInstanceState) {

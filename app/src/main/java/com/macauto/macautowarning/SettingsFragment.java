@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -31,7 +32,7 @@ public class SettingsFragment extends Fragment {
     static SharedPreferences.Editor editor;
     private static final String FILE_NAME = "Preference";
 
-    //private static String account;
+    private String account;
     //private static String password;
 
     @Override
@@ -41,7 +42,7 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Log.d(TAG, "onCreateView");
@@ -58,8 +59,14 @@ public class SettingsFragment extends Fragment {
 
         context = getContext();
 
-        pref = context.getSharedPreferences(FILE_NAME, MODE_PRIVATE);
-        final String account = pref.getString("ACCOUNT", "");
+        if (context != null) {
+            pref = context.getSharedPreferences(FILE_NAME, MODE_PRIVATE);
+            account = pref.getString("ACCOUNT", "");
+        } else {
+            account = "";
+        }
+
+
         //String password = pref.getString("PASSWORD", "");
 
         imgLogout.setOnClickListener(new View.OnClickListener() {

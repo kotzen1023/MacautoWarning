@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import android.util.Log;
@@ -55,7 +56,7 @@ public class HistoryFragment extends Fragment {
     public static ArrayList<HistoryItem> historyItemArrayList = new ArrayList<>();
     public static ArrayList<HistoryItem> typeSortedList = new ArrayList<>();
     public static ArrayList<HistoryItem> sortedNotifyList = new ArrayList<>();
-    public static HistoryAdapter historyAdapter;
+    public HistoryAdapter historyAdapter;
     //private ChangeListener changeListener = null;
     //private Connection connection;
 
@@ -71,19 +72,19 @@ public class HistoryFragment extends Fragment {
 
     private static String account;
     private static String device_id;
-    private static int select_item_index = 0;
+    //private static int select_item_index = 0;
 
     private static String service_ip_address;
     private static String service_port;
     private static String service_port_no2;
 
-    private Spinner typeSpinner;
+    //private Spinner typeSpinner;
     public ArrayAdapter<String> typeAdapter;
 
     private static ArrayList<String> typeList = new ArrayList<>();
 
     public static ArrayList<GoOutData> goOutList = new ArrayList<>();
-    public static GoOutAdapter goOutAdapter;
+    public GoOutAdapter goOutAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +94,7 @@ public class HistoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Log.d(TAG, "onCreateView");
@@ -102,18 +103,28 @@ public class HistoryFragment extends Fragment {
 
         context = getContext();
 
-        pref = context.getSharedPreferences(FILE_NAME, MODE_PRIVATE);
-        account = pref.getString("ACCOUNT", "");
-        device_id = pref.getString("WIFIMAC", "");
-        service_ip_address = pref.getString("DEFAULT_SERVICE_ADDRESS", "60.249.239.47");
-        service_port = pref.getString("DEFAULT_SERVICE_PORT", "9571");
-        service_port_no2 = pref.getString("DEFAULT_SERVICE_PORT_NO2", "9572");
+        if (context != null) {
+            pref = context.getSharedPreferences(FILE_NAME, MODE_PRIVATE);
+            account = pref.getString("ACCOUNT", "");
+            device_id = pref.getString("WIFIMAC", "");
+            service_ip_address = pref.getString("DEFAULT_SERVICE_ADDRESS", "60.249.239.47");
+            service_port = pref.getString("DEFAULT_SERVICE_PORT", "9571");
+            service_port_no2 = pref.getString("DEFAULT_SERVICE_PORT_NO2", "9572");
+        } else {
+            account = "";
+            device_id = "";
+            service_ip_address = "60.249.239.47";
+            service_port = "9571";
+            service_port_no2 = "9572";
+        }
+
+
 
         IntentFilter filter;
 
         listView =  view.findViewById(R.id.listViewHistory);
 
-        typeSpinner = view.findViewById(R.id.spinnerType);
+        Spinner typeSpinner = view.findViewById(R.id.spinnerType);
 
         typeList.clear();
         typeList.add("全部");
@@ -126,6 +137,7 @@ public class HistoryFragment extends Fragment {
 
         typeAdapter = new ArrayAdapter<>(context, R.layout.myspinner, typeList);
         typeSpinner.setAdapter(typeAdapter);
+
 
         //typeSpinner.setSelection(0);
 
@@ -302,7 +314,7 @@ public class HistoryFragment extends Fragment {
                             context.startService(gointent);
                         } else {
 
-                            //historyAdapter.notifyDataSetChanged();
+
                             Intent getintent = new Intent(context, GetMessageService.class);
                             getintent.setAction(Constants.ACTION.GET_MESSAGE_LIST_ACTION);
                             getintent.putExtra("ACCOUNT", account);
@@ -317,8 +329,7 @@ public class HistoryFragment extends Fragment {
                         Log.d(TAG, "receive brocast GET_MESSAGE_LIST_COMPLETE!");
 
                         if (message_type_select == 0) {
-                            //historyAdapter = new HistoryAdapter(context, R.layout.history_item, historyItemArrayList);
-                            //listView.setAdapter(historyAdapter);
+
                             if (historyAdapter != null)
                                 historyAdapter.notifyDataSetChanged();
                             Log.d(TAG, "size = "+historyItemArrayList.size());
@@ -365,78 +376,36 @@ public class HistoryFragment extends Fragment {
                         }
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_MESSAGE_LIST_CLEAR)) {
                         Log.d(TAG, "receive brocast GET_MESSAGE_LIST_CLEAR!");
-                        if (historyAdapter != null)
+                        historyItemArrayList.clear();
+                        if (historyAdapter != null) {
                             historyAdapter.notifyDataSetChanged();
+                        }
 
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_MESSAGE_DATA)) {
                         Log.d(TAG, "receive brocast GET_MESSAGE_DATA!");
-                        /*
-                        case "message_id":
-                                item.setMsg_id(tag_value);
-                                break;
-                            case "message_code":
-                                item.setMsg_code(tag_value);
-                                break;
-                            case "message_title":
-                                item.setMsg_title(tag_value);
-                                break;
-                            case "message_content":
-                                item.setMsg_content(tag_value);
-                                break;
-                            case "announce_date":
-                                item.setAnnounce_date(tag_value);
-                                break;
-                            case "internal_doc_no":
-                                item.setInternal_doc_no(tag_value);
-                                break;
-                            case "internal_part_no":
-                                item.setInternal_part_no(tag_value);
-                                break;
-                            case "internal_model_no":
-                                item.setInternal_model_no(tag_value);
-                                break;
-                            case "internal_machine_no":
-                                item.setInternal_machine_no(tag_value);
-                                break;
-                            case "internal_plant_no":
-                                item.setInternal_plant_no(tag_value);
-                                break;
-                            case "announcer":
-                                item.setAnnouncer(tag_value);
-                                break;
 
-                            case "ime_code":
-                                item.setIme_code(tag_value);
-                                break;
-
-                            case "read_sp":
-                                if (tag_value.equals("Y")) {
-                                    item.setRead_sp(true);
-                                } else {
-                                    item.setRead_sp(false);
-                                }
-                                break;
-                         */
+                        if (intent.getExtras() != null) {
+                            HistoryItem item = new HistoryItem();
+                            item.setMsg_id(intent.getExtras().getString("message_id"));
+                            item.setMsg_code(intent.getExtras().getString("message_code"));
+                            item.setMsg_title(intent.getExtras().getString("message_title"));
+                            item.setMsg_content(intent.getExtras().getString("message_content"));
+                            item.setAnnounce_date(intent.getExtras().getString("announce_date"));
+                            item.setInternal_doc_no(intent.getExtras().getString("internal_doc_no"));
+                            item.setInternal_part_no(intent.getExtras().getString("internal_part_no"));
+                            item.setInternal_model_no(intent.getExtras().getString("internal_model_no"));
+                            item.setInternal_machine_no(intent.getExtras().getString("internal_machine_no"));
+                            item.setInternal_plant_no(intent.getExtras().getString("internal_plant_no"));
+                            item.setAnnouncer(intent.getExtras().getString("announcer"));
+                            item.setIme_code(intent.getExtras().getString("ime_code"));
+                            item.setRead_sp(intent.getExtras().getBoolean("read_sp"));
 
 
-                        HistoryItem item = new HistoryItem();
-                        item.setMsg_id(intent.getExtras().getString("message_id"));
-                        item.setMsg_code(intent.getExtras().getString("message_code"));
-                        item.setMsg_title(intent.getExtras().getString("message_title"));
-                        item.setMsg_content(intent.getExtras().getString("message_content"));
-                        item.setAnnounce_date(intent.getExtras().getString("announce_date"));
-                        item.setInternal_doc_no(intent.getExtras().getString("internal_doc_no"));
-                        item.setInternal_part_no(intent.getExtras().getString("internal_part_no"));
-                        item.setInternal_model_no(intent.getExtras().getString("internal_model_no"));
-                        item.setInternal_machine_no(intent.getExtras().getString("internal_machine_no"));
-                        item.setInternal_plant_no(intent.getExtras().getString("internal_plant_no"));
-                        item.setAnnouncer(intent.getExtras().getString("announcer"));
-                        item.setIme_code(intent.getExtras().getString("ime_code"));
-                        item.setRead_sp(intent.getExtras().getBoolean("read_sp"));
+                            historyItemArrayList.add(item);
+                        }
 
 
-                        historyItemArrayList.add(item);
                     }
                 }
             }
@@ -487,11 +456,11 @@ public class HistoryFragment extends Fragment {
     public void onDestroyView() {
         Log.i(TAG, "onDestroyView");
 
-        typeList.clear();
+
 
         if (message_type_select == 0) {
             historyItemArrayList.clear();
-            typeAdapter.notifyDataSetChanged();
+            historyAdapter.notifyDataSetChanged();
         }
 
 
@@ -522,18 +491,7 @@ public class HistoryFragment extends Fragment {
 
         Log.i(TAG, "onResume");
 
-        //if (typeAdapter != null)
-        //    typeSpinner.setSelection(0);
 
-        /*if (sortedNotifyList.size() > 0) {
-            historyAdapter = new HistoryAdapter(context, R.layout.history_item, sortedNotifyList);
-            listView.setAdapter(historyAdapter);
-        } else {
-            historyAdapter = new HistoryAdapter(context, R.layout.history_item, InitData.notifyList);
-            listView.setAdapter(historyAdapter);
-        }*/
-        //if (historyAdapter != null)
-        //    historyAdapter.notifyDataSetChanged();
 
 
 

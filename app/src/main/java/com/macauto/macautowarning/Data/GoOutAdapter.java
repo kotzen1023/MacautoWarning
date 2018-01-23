@@ -7,17 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+
 import android.widget.TextView;
 
 import com.macauto.macautowarning.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+
 
 public class GoOutAdapter extends ArrayAdapter<GoOutData> {
     public static final String TAG = GoOutAdapter.class.getName();
@@ -30,7 +26,7 @@ public class GoOutAdapter extends ArrayAdapter<GoOutData> {
     //private static int contact_count = 0;
     //private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.s", Locale.getDefault());
     //private SimpleDateFormat AMBIENT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-    private String current_date;
+    //private String current_date;
 
     public GoOutAdapter(Context context, int textViewResourceId,
                           ArrayList<GoOutData> objects) {
@@ -74,7 +70,7 @@ public class GoOutAdapter extends ArrayAdapter<GoOutData> {
     }
 
     @NonNull
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         //Log.e(TAG, "getView = " + position);
         View view;

@@ -2,7 +2,7 @@ package com.macauto.macautowarning.Data;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.macauto.macautowarning.R;
 
-import java.text.Format;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import static android.R.attr.format;
 
 
 public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
@@ -78,7 +77,7 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
     }
 
     @NonNull
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         //Log.e(TAG, "getView = " + position);
         View view;
@@ -227,10 +226,10 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 
         private ViewHolder(View view) {
 
-            this.action = (ImageView) view.findViewById(R.id.title_icon);
-            this.day = (TextView) view.findViewById(R.id.history_day);
-            this.date = (TextView) view.findViewById(R.id.history_time);
-            this.msg = (TextView) view.findViewById(R.id.history_msg);
+            this.action = view.findViewById(R.id.title_icon);
+            this.day = view.findViewById(R.id.history_day);
+            this.date = view.findViewById(R.id.history_time);
+            this.msg = view.findViewById(R.id.history_msg);
             //this.date = (TextView) view.findViewById(R.id.history_time);
         }
 

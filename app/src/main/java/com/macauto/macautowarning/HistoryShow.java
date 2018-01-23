@@ -11,9 +11,7 @@ import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.macauto.macautowarning.Data.Constants;
 
-import com.macauto.macautowarning.Service.UpdateReadStatusService;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -54,7 +52,7 @@ public class HistoryShow extends Activity {
             window.setStatusBarColor(getResources().getColor(R.color.status_bar_color_menu_classic, getTheme()));
         }
 
-        ListView listView = (ListView) findViewById(R.id.listViewHistoryShow);
+        ListView listView = findViewById(R.id.listViewHistoryShow);
 
         Intent getintent = getIntent();
 
@@ -182,7 +180,7 @@ public class HistoryShow extends Activity {
             items.add(item9);
         }
 
-        if (plant_no != null && !part_no.equals("")) {
+        if (plant_no != null && !plant_no.equals("")) {
             Map<String, String> item10 = new HashMap<>();
             item10.put("show_header", getResources().getString(R.string.msg_plant_no));
             item10.put("show_msg", plant_no);
