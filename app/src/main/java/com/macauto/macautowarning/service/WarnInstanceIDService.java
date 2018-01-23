@@ -1,4 +1,4 @@
-package com.macauto.macautowarning.Service;
+package com.macauto.macautowarning.service;
 
 import android.util.Log;
 

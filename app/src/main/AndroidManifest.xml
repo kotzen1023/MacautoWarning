@@ -29,26 +29,26 @@
         <activity android:name=".ErrorTimer"/>
         <activity android:name=".GoOutDataShow"/>
 
-        <receiver android:enabled="true" android:name=".Receiver.Receive_BootCompleted">
+        <receiver android:enabled="true" android:name=".receiver.Receive_BootCompleted">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 
-        <service android:name=".Service.WarnInstanceIDService">
+        <service android:name=".service.WarnInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name=".Service.WarnFirebaseMessagingService">
+        <service android:name=".service.WarnFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name=".Service.LoginCheckService"/>
-        <service android:name=".Service.GetMessageService"/>
-        <service android:name=".Service.UpdateReadStatusService"/>
-        <service android:name=".Service.GetWhoGoesOutService"/>
+        <service android:name=".service.LoginCheckService"/>
+        <service android:name=".service.GetMessageService"/>
+        <service android:name=".service.UpdateReadStatusService"/>
+        <service android:name=".service.GetWhoGoesOutService"/>
     </application>
 
 </manifest>

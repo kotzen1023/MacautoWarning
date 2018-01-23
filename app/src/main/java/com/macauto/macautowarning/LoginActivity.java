@@ -24,8 +24,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.macauto.macautowarning.Data.Constants;
-import com.macauto.macautowarning.Service.LoginCheckService;
+import com.macauto.macautowarning.data.Constants;
+import com.macauto.macautowarning.service.LoginCheckService;
 
 
 

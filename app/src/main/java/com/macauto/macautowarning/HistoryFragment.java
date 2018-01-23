@@ -26,15 +26,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
-import com.macauto.macautowarning.Data.Constants;
-import com.macauto.macautowarning.Data.GoOutAdapter;
-import com.macauto.macautowarning.Data.GoOutData;
-import com.macauto.macautowarning.Data.HistoryAdapter;
-import com.macauto.macautowarning.Data.HistoryItem;
+import com.macauto.macautowarning.data.Constants;
+import com.macauto.macautowarning.data.GoOutAdapter;
+import com.macauto.macautowarning.data.GoOutData;
+import com.macauto.macautowarning.data.HistoryAdapter;
+import com.macauto.macautowarning.data.HistoryItem;
 
-import com.macauto.macautowarning.Service.GetMessageService;
-import com.macauto.macautowarning.Service.GetWhoGoesOutService;
-import com.macauto.macautowarning.Service.UpdateReadStatusService;
+import com.macauto.macautowarning.service.GetMessageService;
+import com.macauto.macautowarning.service.GetWhoGoesOutService;
+import com.macauto.macautowarning.service.UpdateReadStatusService;
 
 
 import java.util.ArrayList;

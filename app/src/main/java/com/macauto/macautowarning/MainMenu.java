@@ -25,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 
 
-import com.macauto.macautowarning.Data.Constants;
+import com.macauto.macautowarning.data.Constants;
 
 import static com.macauto.macautowarning.HistoryFragment.historyItemArrayList;
 import static com.macauto.macautowarning.HistoryFragment.sortedNotifyList;

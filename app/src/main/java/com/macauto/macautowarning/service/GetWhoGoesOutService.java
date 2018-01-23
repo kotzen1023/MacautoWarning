@@ -1,4 +1,4 @@
-package com.macauto.macautowarning.Service;
+package com.macauto.macautowarning.service;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.util.Log;
 
 
-import com.macauto.macautowarning.Data.Constants;
-import com.macauto.macautowarning.Data.GoOutData;
+import com.macauto.macautowarning.data.Constants;
+import com.macauto.macautowarning.data.GoOutData;
 
 
 import org.ksoap2.SoapEnvelope;
@@ -23,9 +23,9 @@ public class GetWhoGoesOutService extends IntentService {
 
     public static final String TAG = "GetWhoGoesOutService";
 
-    public static final String SERVICE_IP = "172.17.17.131";
+    //public static final String SERVICE_IP = "172.17.17.131";
 
-    public static final String SERVICE_PORT = "8930";
+    //public static final String SERVICE_PORT = "8930";
 
     //public static final String SERVICE_IP = "service_ip_address";
 
@@ -36,9 +36,9 @@ public class GetWhoGoesOutService extends IntentService {
     private static final String METHOD_NAME = "getDataBySelect"; // 方法名稱
 
     //private static final String SOAP_ACTION1 = "http://172.17.17.131:8930/WhoisoutSOAP/services/getDataBySelect"; // SOAP_ACTION
-    private static String SOAP_ACTION1 = ""; // SOAP_ACTION
+    //private static String SOAP_ACTION1 = ""; // SOAP_ACTION
 
-    private static int date_select = 0;
+    //private static int date_select = 0;
 
     public GetWhoGoesOutService() {
         super("GetWhoGoesOutService");
@@ -69,6 +69,7 @@ public class GetWhoGoesOutService extends IntentService {
 
         //String account;
         //String device_id;
+        int date_select;
 
         //account = intent.getStringExtra("ACCOUNT");
         //device_id = intent.getStringExtra("DEVICE_ID");
@@ -77,7 +78,7 @@ public class GetWhoGoesOutService extends IntentService {
         String service_port_no2 = intent.getStringExtra("SERVICE_PORT_NO2");
         String dateSelect = intent.getStringExtra("DATE_SELECT");
 
-        SOAP_ACTION1 = "http://"+service_ip+":"+service_port_no2+"/WhoisoutSOAP/services/getDataBySelect"; // SOAP_ACTION
+        String SOAP_ACTION1 = "http://"+service_ip+":"+service_port_no2+"/WhoisoutSOAP/services/getDataBySelect"; // SOAP_ACTION
 
         Log.e(TAG, "Get date : "+dateSelect);
         if (dateSelect != null) {
@@ -88,9 +89,13 @@ public class GetWhoGoesOutService extends IntentService {
 
         String combine_url = "http://"+service_ip+":"+service_port_no2+"/WhoisoutSOAP/services/GetWhoGoesOutServiceImpl";
 
-        if (intent.getAction().equals(Constants.ACTION.GET_WHOGOESOUT_LIST_ACTION)) {
-            Log.i(TAG, "GET_WHOGOESOUT_LIST_ACTION");
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(Constants.ACTION.GET_WHOGOESOUT_LIST_ACTION)) {
+                Log.i(TAG, "GET_WHOGOESOUT_LIST_ACTION");
+            }
         }
+
+
 
         try {
             // 建立一個 WebService 請求

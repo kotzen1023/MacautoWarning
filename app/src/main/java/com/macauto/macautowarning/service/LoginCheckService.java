@@ -1,10 +1,10 @@
-package com.macauto.macautowarning.Service;
+package com.macauto.macautowarning.service;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.macauto.macautowarning.Data.Constants;
+import com.macauto.macautowarning.data.Constants;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;

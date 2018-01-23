@@ -1,4 +1,4 @@
-package com.macauto.macautowarning.Service;
+package com.macauto.macautowarning.service;
 
 
 import android.app.NotificationManager;
@@ -15,7 +15,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.macauto.macautowarning.Data.Constants;
+import com.macauto.macautowarning.data.Constants;
 import com.macauto.macautowarning.MainActivity;
 import com.macauto.macautowarning.R;
 
@@ -120,35 +120,39 @@ public class WarnFirebaseMessagingService extends FirebaseMessagingService {
 
         Bundle bundle = intent.getExtras();
 
-        Log.e(TAG, "bundle = "+bundle.toString());
+        if (bundle != null) {
+            Log.e(TAG, "bundle = "+bundle.toString());
 
-        String myBadge = bundle.getString("gcm.notification.badge");
-        String title = bundle.getString("gcm.notification.title");
-        String body = bundle.getString("gcm.notification.body");
+            String myBadge = bundle.getString("gcm.notification.badge");
+            String title = bundle.getString("gcm.notification.title");
+            String body = bundle.getString("gcm.notification.body");
 
-        Log.d(TAG, "title = "+title);
-        Log.d(TAG, "body = "+body);
-        Log.d(TAG, "badge = "+myBadge);
+            Log.d(TAG, "title = "+title);
+            Log.d(TAG, "body = "+body);
+            Log.d(TAG, "badge = "+myBadge);
 
-        if (myBadge == null) {
-            Log.e(TAG, "myBadge = null");
-            ShortcutBadger.applyCount(this, 0);
-        } else {
-            int badge_count;
-            try {
-                badge_count = Integer.valueOf(myBadge);
-                ShortcutBadger.applyCount(this, badge_count);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
+            if (myBadge == null) {
+                Log.e(TAG, "myBadge = null");
+                ShortcutBadger.applyCount(this, 0);
+            } else {
+                int badge_count;
+                try {
+                    badge_count = Integer.valueOf(myBadge);
+                    ShortcutBadger.applyCount(this, badge_count);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
             }
+
+            if (title != null && body != null) {
+                sendNotification(title, body);
+            }
+
+            Intent newNotifyIntent = new Intent(Constants.ACTION.GET_NEW_NOTIFICATION_ACTION);
+            sendBroadcast(newNotifyIntent);
         }
 
-        if (title != null && body != null) {
-            sendNotification(title, body);
-        }
 
-        Intent newNotifyIntent = new Intent(Constants.ACTION.GET_NEW_NOTIFICATION_ACTION);
-        sendBroadcast(newNotifyIntent);
     }
 
 
@@ -161,6 +165,7 @@ public class WarnFirebaseMessagingService extends FirebaseMessagingService {
         //int color = 0xff00a2c7;
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        //NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 //.setColor(color)
                 //.setSmallIcon(R.drawable.m_mark)

@@ -1,4 +1,4 @@
-package com.macauto.macautowarning.Service;
+package com.macauto.macautowarning.service;
 
 import android.app.IntentService;
 
@@ -10,8 +10,8 @@ import android.os.Build;
 import android.util.Log;
 import android.util.Xml;
 
-import com.macauto.macautowarning.Data.Constants;
-import com.macauto.macautowarning.Data.HistoryItem;
+import com.macauto.macautowarning.data.Constants;
+import com.macauto.macautowarning.data.HistoryItem;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -27,7 +27,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import static com.macauto.macautowarning.HistoryFragment.historyItemArrayList;
+
 
 
 
@@ -82,18 +82,22 @@ public class GetMessageService extends IntentService {
         Log.i(TAG, "Handle");
 
         String account;
-        String device_id;
+        //String device_id;
 
         account = intent.getStringExtra("ACCOUNT");
-        device_id = intent.getStringExtra("DEVICE_ID");
+        //device_id = intent.getStringExtra("DEVICE_ID");
         String service_ip = intent.getStringExtra(SERVICE_IP);
         String service_port = intent.getStringExtra(SERVICE_PORT);
 
         String combine_url = "http://"+service_ip+":"+service_port+"/service.asmx";
 
-        if (intent.getAction().equals(Constants.ACTION.GET_MESSAGE_LIST_ACTION)) {
-            Log.i(TAG, "GET_MESSAGE_LIST_ACTION");
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(Constants.ACTION.GET_MESSAGE_LIST_ACTION)) {
+                Log.i(TAG, "GET_MESSAGE_LIST_ACTION");
+            }
         }
+
+
 
         try {
             // 建立一個 WebService 請求
