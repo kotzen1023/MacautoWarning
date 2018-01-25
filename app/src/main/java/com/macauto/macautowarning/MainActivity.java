@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             if (cm != null) {
                 try {
-                    Class cmClass = Class.forName(cm.getClass().getName());
+                    Class<?> cmClass = Class.forName(cm.getClass().getName());
                     Method method = cmClass.getDeclaredMethod("getMobileDataEnabled");
                     method.setAccessible(true); // Make the method callable
                     // get the setting for "mobile data"
