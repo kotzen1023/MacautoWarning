@@ -13,7 +13,8 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -244,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onRequestPermissionsResult(int requestCode,
-                                           @Nullable String permissions[], @Nullable int[] grantResults) {
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
         //Log.e(TAG, "result size = "+grantResults.length+ "result[0] = "+grantResults[0]+", result[1] = "+grantResults[1]);
 
 
