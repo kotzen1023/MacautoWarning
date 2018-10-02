@@ -28,7 +28,7 @@
     <string name="msg_code">代號</string>
     <string name="msg_title">標題</string>
     <string name="msg_content">內容</string>
-    <string name="msg_date">日期</string>
+    <string name="msg_date">發生時間</string>
     <string name="msg_doc_no">文件編號</string>
     <string name="msg_part_no">料件編號</string>
     <string name="msg_model_no">機種代號</string>
@@ -59,8 +59,12 @@
     <string name="reason">事由</string>
     <string name="location">地點</string>
     <string name="car_type">交通工具</string>
+    <string name="car_type_company">公司車</string>
+    <string name="car_type_private">私家車</string>
     <string name="car_no">車牌號碼</string>
     <string name="car_or_moto">汽(機)車</string>
+    <string name="car_or_moto_car">汽車</string>
+    <string name="car_or_moto_moto">機車</string>
     <string name="loding">讀取中...</string>
     <string name="whogoesout_list_empty">目前無外出人員</string>
     <string name="whogoesout_title">今日外出人員</string>

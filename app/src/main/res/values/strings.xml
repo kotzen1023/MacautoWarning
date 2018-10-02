@@ -28,7 +28,7 @@
     <string name="msg_code">Code</string>
     <string name="msg_title">Title</string>
     <string name="msg_content">Content</string>
-    <string name="msg_date">Date</string>
+    <string name="msg_date">Occur Date</string>
     <string name="msg_doc_no">Doc No</string>
     <string name="msg_part_no">Part No</string>
     <string name="msg_model_no">Model No</string>
@@ -59,8 +59,12 @@
     <string name="reason">Reason</string>
     <string name="location">Location</string>
     <string name="car_type">Car Type</string>
+    <string name="car_type_company">Company Car</string>
+    <string name="car_type_private">Private Car</string>
     <string name="car_no">Car No.</string>
     <string name="car_or_moto">Car or Moto</string>
+    <string name="car_or_moto_car">Car</string>
+    <string name="car_or_moto_moto">Motorcycle</string>
     <string name="loding">Loading...</string>
     <string name="whogoesout_list_empty">No one goes out now</string>
     <string name="whogoesout_title">Today Outgoing Staff</string>

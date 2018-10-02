@@ -179,24 +179,40 @@ public class GoOutDataShow extends Activity {
             items.add(item7);
         }
 
-        if (car_type != null && !car_type.equals("")) {
+        if (car_type != null) {
+
             Map<String, String> item7 = new HashMap<>();
             item7.put("show_header", getResources().getString(R.string.car_type));
-            item7.put("show_msg", car_type);
+            if (car_type.equals("C")) {
+                item7.put("show_msg", getResources().getString(R.string.car_type_company));
+            } else if (car_type.equals("P")) {
+                item7.put("show_msg", getResources().getString(R.string.car_type_private));
+            } else {
+                item7.put("show_msg", car_type);
+            }
+
             items.add(item7);
         }
 
-        if (car_no != null && !car_no.equals("")) {
+        if (car_no != null) {
             Map<String, String> item8 = new HashMap<>();
             item8.put("show_header", getResources().getString(R.string.car_no));
             item8.put("show_msg", car_no);
             items.add(item8);
         }
 
-        if (car_or_moto != null && !car_or_moto.equals("")) {
+        if (car_or_moto != null) {
             Map<String, String> item9 = new HashMap<>();
             item9.put("show_header", getResources().getString(R.string.car_or_moto));
-            item9.put("show_msg", car_or_moto);
+
+            if (car_or_moto.equals("C")) {
+                item9.put("show_msg", getResources().getString(R.string.car_or_moto_car));
+            } else if (car_or_moto.equals("M")) {
+                item9.put("show_msg", getResources().getString(R.string.car_or_moto_moto));
+            } else {
+                item9.put("show_msg", car_or_moto);
+            }
+
             items.add(item9);
         }
 
