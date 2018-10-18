@@ -6,6 +6,8 @@
     <string name="scm_show_content">Content</string>
     <string name="scm_show_date">Date</string>
     <string name="scm_clear">Clear</string>
+    <string name="scm_single">Single</string>
+    <string name="scm_multi">Multi</string>
     <string name="scm_warning">Warning</string>
     <string name="scm_confirm">Confirm</string>
     <string name="scm_cancel">Cancel</string>
@@ -68,4 +70,7 @@
     <string name="loding">Loading...</string>
     <string name="whogoesout_list_empty">No one goes out now</string>
     <string name="whogoesout_title">Today Outgoing Staff</string>
+    <string name="connection_timeout">Connection timeout. Please retry.</string>
+    <string name="soap_connection_failed">Soap connection failed. Please check your network configuration.</string>
+    <string name="default_notification_channel_id">default</string>
 </resources>

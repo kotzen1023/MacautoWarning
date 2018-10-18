@@ -1,6 +1,6 @@
 package com.macauto.macautowarning;
 
-import android.app.ProgressDialog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import android.widget.ArrayAdapter;
+
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -42,15 +45,18 @@ import java.util.ArrayList;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.macauto.macautowarning.MainMenu.item_lines;
 import static com.macauto.macautowarning.MainMenu.message_type_select;
 import static com.macauto.macautowarning.MainMenu.message_type_string;
+import static com.macauto.macautowarning.MainMenu.multi_lines;
 
 public class HistoryFragment extends Fragment {
     private static final String TAG = HistoryFragment.class.getName();
 
     private Context context;
     private ListView listView;
-    ProgressDialog loadDialog = null;
+    //ProgressDialog loadDialog = null;
+    ProgressBar progressBar = null;
 
     //public ArrayAdapter<Spanned> arrayAdapter = null;
     public static ArrayList<HistoryItem> historyItemArrayList = new ArrayList<>();
@@ -85,6 +91,7 @@ public class HistoryFragment extends Fragment {
 
     public static ArrayList<GoOutData> goOutList = new ArrayList<>();
     public GoOutAdapter goOutAdapter;
+    RelativeLayout relativeLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,6 +107,8 @@ public class HistoryFragment extends Fragment {
         Log.d(TAG, "onCreateView");
 
         View view = inflater.inflate(R.layout.history_fragment, container, false);
+
+        relativeLayout = view.findViewById(R.id.list_container);
 
         context = getContext();
 
@@ -170,16 +179,25 @@ public class HistoryFragment extends Fragment {
                             intent.putExtra("SERVICE_PORT_NO2", service_port_no2);
                             context.startService(intent);
 
-                            loadDialog = new ProgressDialog(context);
+                            progressBar = new ProgressBar(context,null,android.R.attr.progressBarStyleLarge);
+                            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+                            params.addRule(RelativeLayout.CENTER_IN_PARENT);
+                            relativeLayout.addView(progressBar,params);
+                            progressBar.setVisibility(View.VISIBLE);  //To show ProgressBar
+                            //progressBar.setVisibility(View.GONE);
+
+                            /*loadDialog = new ProgressDialog(context);
                             loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                             loadDialog.setTitle(getResources().getString(R.string.loding));
                             loadDialog.setIndeterminate(false);
                             loadDialog.setCancelable(false);
                             Log.e(TAG, "loadDialog.show 1");
-                            loadDialog.show();
+                            loadDialog.show();*/
                         }
 
-
+                        if (item_lines != null) {
+                            item_lines.setVisible(false);
+                        }
 
                     } else {
                         goOutList.clear();
@@ -197,6 +215,10 @@ public class HistoryFragment extends Fragment {
 
                         Intent intent = new Intent(Constants.ACTION.GET_TYPE_LIST_ACTION);
                         context.sendBroadcast(intent);
+
+                        if (item_lines != null) {
+                            item_lines.setVisible(true);
+                        }
                     }
                 } else {
                     goOutList.clear();
@@ -207,6 +229,10 @@ public class HistoryFragment extends Fragment {
 
                     Intent intent = new Intent(Constants.ACTION.GET_ORIGINAL_LIST_ACTION);
                     context.sendBroadcast(intent);
+
+                    if (item_lines != null) {
+                        item_lines.setVisible(true);
+                    }
                 }
 
                 //meetingArrayAdapter = new MeetingArrayAdapter(context, R.layout.meeting_list_item, list);
@@ -300,7 +326,21 @@ public class HistoryFragment extends Fragment {
 
                 if (intent.getAction() != null) {
 
-                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_NEW_NOTIFICATION_ACTION)) {
+                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.SOAP_CONNECTION_FAIL)) {
+                        Log.d(TAG, "receive SOAP_CONNECTION_FAIL");
+
+                        progressBar.setVisibility(View.GONE);
+
+                        toast(getResources().getString(R.string.soap_connection_failed));
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
+                        Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
+
+                        progressBar.setVisibility(View.GONE);
+
+                        toast(getResources().getString(R.string.connection_timeout));
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_NEW_NOTIFICATION_ACTION)) {
                         Log.d(TAG, "receive brocast !");
 
                         if (message_type_select == typeList.size() - 1) {
@@ -336,7 +376,8 @@ public class HistoryFragment extends Fragment {
                         }
 
 
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         int badgeCount = 0;
                         for (int i = 0; i < historyItemArrayList.size(); i++) {
@@ -347,20 +388,41 @@ public class HistoryFragment extends Fragment {
 
                         ShortcutBadger.applyCount(context, badgeCount);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_HISTORY_LIST_SORT_COMPLETE)) {
-                        historyAdapter = new HistoryAdapter(context, R.layout.history_item, sortedNotifyList);
-                        listView.setAdapter(historyAdapter);
+                        if (multi_lines) {
+                            historyAdapter = new HistoryAdapter(context, R.layout.history_item, sortedNotifyList);
+                            listView.setAdapter(historyAdapter);
+                        } else {
+                            historyAdapter = new HistoryAdapter(context, R.layout.history_item_single, sortedNotifyList);
+                            listView.setAdapter(historyAdapter);
+                        }
+
+
 
                         typeSortedList.clear();
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_ORIGINAL_LIST_ACTION)) {
-                        historyAdapter = new HistoryAdapter(context, R.layout.history_item, historyItemArrayList);
-                        listView.setAdapter(historyAdapter);
+                        if (multi_lines) {
+                            historyAdapter = new HistoryAdapter(context, R.layout.history_item, historyItemArrayList);
+                            listView.setAdapter(historyAdapter);
+                        } else {
+                            historyAdapter = new HistoryAdapter(context, R.layout.history_item_single, historyItemArrayList);
+                            listView.setAdapter(historyAdapter);
+                        }
+
 
                         sortedNotifyList.clear();
                         typeSortedList.clear();
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_TYPE_LIST_ACTION)) {
-                        historyAdapter = new HistoryAdapter(context, R.layout.history_item, typeSortedList);
-                        listView.setAdapter(historyAdapter);
+
+                        if (multi_lines) {
+                            historyAdapter = new HistoryAdapter(context, R.layout.history_item, typeSortedList);
+                            listView.setAdapter(historyAdapter);
+                        } else {
+                            historyAdapter = new HistoryAdapter(context, R.layout.history_item_single, typeSortedList);
+                            listView.setAdapter(historyAdapter);
+                        }
+
+
 
                         sortedNotifyList.clear();
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.GET_WHOGOESOUT_LIST_COMPLETE)) {
@@ -369,7 +431,8 @@ public class HistoryFragment extends Fragment {
                         goOutAdapter = new GoOutAdapter(context, R.layout.goout_list_item, goOutList);
                         listView.setAdapter(goOutAdapter);
 
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         if (goOutList.size() == 0) {
                             toast(getResources().getString(R.string.whogoesout_list_empty));
@@ -406,6 +469,33 @@ public class HistoryFragment extends Fragment {
                         }
 
 
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_LINES_CHANGE)) {
+                        Log.d(TAG, "receive brocast ACTION_LINES_CHANGE!");
+
+                        if (multi_lines) {
+                            if (message_type_select != 6) { //not go out
+                                if (message_type_select == 0) {
+                                    historyAdapter = new HistoryAdapter(context, R.layout.history_item, historyItemArrayList);
+                                    listView.setAdapter(historyAdapter);
+                                } else {
+                                    historyAdapter = new HistoryAdapter(context, R.layout.history_item, sortedNotifyList);
+                                    listView.setAdapter(historyAdapter);
+                                }
+                            }
+                        } else {
+                            if (message_type_select != 6) { //not go out
+                                if (message_type_select == 0) {
+                                    historyAdapter = new HistoryAdapter(context, R.layout.history_item_single, historyItemArrayList);
+                                    listView.setAdapter(historyAdapter);
+                                } else {
+                                    historyAdapter = new HistoryAdapter(context, R.layout.history_item_single, sortedNotifyList);
+                                    listView.setAdapter(historyAdapter);
+                                }
+                            }
+                        }
+
+
+
                     }
                 }
             }
@@ -413,6 +503,8 @@ public class HistoryFragment extends Fragment {
 
         if (!isRegister) {
             filter = new IntentFilter();
+            filter.addAction(Constants.ACTION.SOAP_CONNECTION_FAIL);
+            filter.addAction(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
             filter.addAction(Constants.ACTION.GET_NEW_NOTIFICATION_ACTION);
             filter.addAction(Constants.ACTION.GET_HISTORY_LIST_SORT_COMPLETE);
             filter.addAction(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE);
@@ -421,6 +513,7 @@ public class HistoryFragment extends Fragment {
             filter.addAction(Constants.ACTION.GET_WHOGOESOUT_LIST_COMPLETE);
             filter.addAction(Constants.ACTION.GET_MESSAGE_LIST_CLEAR);
             filter.addAction(Constants.ACTION.GET_MESSAGE_DATA);
+            filter.addAction(Constants.ACTION.ACTION_LINES_CHANGE);
             context.registerReceiver(mReceiver, filter);
             isRegister = true;
             Log.d(TAG, "registerReceiver mReceiver");
@@ -438,13 +531,19 @@ public class HistoryFragment extends Fragment {
             intent.putExtra("service_port", service_port);
             context.startService(intent);
 
-            loadDialog = new ProgressDialog(context);
+            progressBar = new ProgressBar(context,null,android.R.attr.progressBarStyleLarge);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+            params.addRule(RelativeLayout.CENTER_IN_PARENT);
+            relativeLayout.addView(progressBar,params);
+            progressBar.setVisibility(View.VISIBLE);  //To show ProgressBar
+
+            /*loadDialog = new ProgressDialog(context);
             loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             loadDialog.setTitle(getResources().getString(R.string.loding));
             loadDialog.setIndeterminate(false);
             loadDialog.setCancelable(false);
             Log.e(TAG, "loadDialog.show 2");
-            loadDialog.show();
+            loadDialog.show();*/
         }
 
 

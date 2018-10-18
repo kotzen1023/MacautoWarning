@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,9 +39,15 @@ public class MainMenu extends AppCompatActivity {
     private static final String TAB_2_TAG = "tab_2";
 
     public static MenuItem item_search;
+    public static MenuItem item_lines;
     //public static Locale default_locale;
     public static int message_type_select = 0;
     public static String message_type_string = "";
+    public static boolean multi_lines = true;
+
+    static SharedPreferences pref ;
+    static SharedPreferences.Editor editor;
+    private static final String FILE_NAME = "Preference";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,8 @@ public class MainMenu extends AppCompatActivity {
 
         setContentView(R.layout.main_menu);
 
+        pref = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
+        multi_lines = pref.getBoolean("MULTI_LINES", true);
 
 
 
@@ -145,12 +154,19 @@ public class MainMenu extends AppCompatActivity {
                         //    item_clear.setVisible(true);
                         if (item_search != null)
                             item_search.setVisible(true);
+                        if (item_lines != null)
+                            item_lines.setVisible(true);
+
                         break;
                     case "tab_2":
                         //if (item_clear != null)
                         //    item_clear.setVisible(false);
                         if (item_search != null)
                             item_search.setVisible(false);
+                        if (item_lines != null)
+                            item_lines.setVisible(false);
+
+
                         break;
 
                     default:
@@ -180,6 +196,16 @@ public class MainMenu extends AppCompatActivity {
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         item_search = menu.findItem(R.id.action_search);
+        item_lines = menu.findItem(R.id.action_lines);
+
+        if (multi_lines) {
+            item_lines.setIcon(R.drawable.baseline_unfold_less_white_48);
+            item_lines.setTitle(R.string.scm_single);
+        } else {
+            item_lines.setIcon(R.drawable.baseline_unfold_more_white_48);
+            item_lines.setTitle(R.string.scm_multi);
+        }
+
         //SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
 
@@ -207,37 +233,30 @@ public class MainMenu extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         //Intent intent;
-        /*switch (item.getItemId()) {
-            case R.id.action_clear:
+        switch (item.getItemId()) {
+            case R.id.action_lines:
 
-                Log.i(TAG, "item_clear");
-                AlertDialog.Builder confirmdialog = new AlertDialog.Builder(MainMenu.this);
-                confirmdialog.setIcon(R.drawable.ic_warning_black_48dp);
-                confirmdialog.setTitle(getResources().getString(R.string.scm_warning));
-                confirmdialog.setMessage(getResources().getString(R.string.scm_clear_msg));
-                confirmdialog.setPositiveButton(getResources().getString(R.string.scm_confirm), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
+                Log.d(TAG, "action_lines");
 
-                        InitData.notifyList.clear();
-                        clear_record();
+                if (!multi_lines) {
+                    item_lines.setIcon(R.drawable.baseline_unfold_less_white_48);
+                    item_lines.setTitle(R.string.scm_single);
+                    multi_lines = true;
+                }
+                else {
+                    item_lines.setIcon(R.drawable.baseline_unfold_more_white_48);
+                    item_lines.setTitle(R.string.scm_multi);
+                    multi_lines = false;
+                }
+                editor = pref.edit();
+                editor.putBoolean("MULTI_LINES", multi_lines);
+                editor.apply();
 
-                        historyAdapter.notifyDataSetChanged();
+                Intent intentClear = new Intent(Constants.ACTION.ACTION_LINES_CHANGE);
+                sendBroadcast(intentClear);
 
-                    }
-                });
-                confirmdialog.setNegativeButton(getResources().getString(R.string.scm_cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-
-                    }
-                });
-                confirmdialog.show();
-
-
-                //Intent deleteIntent = new Intent(Constants.ACTION.MQTT_CLEAR_HISTORY);
-                //sendBroadcast(deleteIntent);
                 break;
-        }*/
+        }
         return true;
     }
 

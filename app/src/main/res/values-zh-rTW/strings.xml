@@ -6,6 +6,8 @@
     <string name="scm_show_content">內容</string>
     <string name="scm_show_date">日期</string>
     <string name="scm_clear">清除</string>
+    <string name="scm_single">單行</string>
+    <string name="scm_multi">多行</string>
     <string name="scm_warning">警告</string>
     <string name="scm_confirm">確定</string>
     <string name="scm_cancel">取消</string>
@@ -68,4 +70,7 @@
     <string name="loding">讀取中...</string>
     <string name="whogoesout_list_empty">目前無外出人員</string>
     <string name="whogoesout_title">今日外出人員</string>
+    <string name="connection_timeout">連線逾時, 請重新嘗試</string>
+    <string name="soap_connection_failed">連線失敗. 請檢查您的網路設定</string>
+    <string name="default_notification_channel_id">預設</string>
 </resources>

@@ -13,6 +13,7 @@ public class Constants {
         String CHECK_USER_LOGIN_COMPLETE = "com.macauto.MacautoWarning.CheckUserLoginComplete";
         String CHECK_USER_LOGIN_FAIL = "com.macauto.MacautoWarning.CheckUserLoginFail";
         String SOAP_CONNECTION_FAIL = "com.macauto.MacautoWarning.SoapConnectionFail";
+        String ACTION_SOCKET_TIMEOUT = "com.macauto.MacautoWarning.ActionSocketTimeout";
         String GET_MESSAGE_LIST_ACTION = "com.macauto.MacautoWarning.GetMessageListAction";
         String GET_MESSAGE_LIST_COMPLETE = "com.macauto.MacautoWarning.GetMessageListComplete";
 
@@ -23,5 +24,9 @@ public class Constants {
 
         String GET_WHOGOESOUT_LIST_ACTION = "com.macauto.MacautoWarning.GetWhoGoesOutListAction";
         String GET_WHOGOESOUT_LIST_COMPLETE = "com.macauto.MacautoWarning.GetWhoGoesOutListComplete";
+
+        String ACTION_LINES_CHANGE = "com.macauto.MacautoWarning.ActionLinesChange";
+        String ACTION_LINES_CHANGE_SHOW = "com.macauto.MacautoWarning.ActionLinesChangShow";
+        String ACTION_LINES_CHANGE_HIDE = "com.macauto.MacautoWarning.ActionLinesChangHide";
     }
 }

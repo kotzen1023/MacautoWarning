@@ -9,11 +9,11 @@
         android:icon="@drawable/ic_search_white_48dp">
     </item>
 
-    <!--item
-        android:id="@+id/action_clear"
-        android:title="@string/scm_clear"
-        android:icon="@drawable/ic_clear_all_white_48dp"
-        app:showAsAction="ifRoom|withText" /-->
+    <item
+        android:id="@+id/action_lines"
+        android:title="@string/scm_single"
+        android:icon="@drawable/baseline_unfold_less_white_48"
+        app:showAsAction="ifRoom|withText" />
 
 
 </menu>

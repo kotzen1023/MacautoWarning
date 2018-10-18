@@ -24,6 +24,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -168,6 +169,10 @@ public class GetMessageService extends IntentService {
 
             //DataTable dt = soapToDataTable(bodyIn);
 
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+            Intent timeoutIntent = new Intent(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
+            sendBroadcast(timeoutIntent);
         } catch (Exception e) {
             // 抓到錯誤訊息
 
