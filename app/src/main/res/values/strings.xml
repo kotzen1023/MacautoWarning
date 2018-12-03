@@ -37,6 +37,8 @@
     <string name="msg_machine_no">Machine No</string>
     <string name="msg_plant_no">Plant No</string>
     <string name="msg_announcer">Announcer</string>
+    <string name="msg_end_date">End date</string>
+    <string name="msg_emp_name">Line Leader</string>
     <string name="date_today">Today</string>
     <string name="date_sunday">Sunday</string>
     <string name="date_monday">Monday</string>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,6 +135,35 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
                 if (current_date.substring(0, 10).equals(splitter[0])) {
                     holder.day.setText(context.getResources().getString(R.string.date_today));
                     holder.date.setText(end_date);
+
+                    if (item.getEnd_date() != null && item.getEnd_date().length() > 0)
+                    {
+                        String end_date_string =  item.getEnd_date();
+                        String end_splitter[] = end_date_string.split("T");
+                        String end_time_splitter[] = end_splitter[1].split("\\+");
+
+                        Log.e(TAG, "end_splitter[0] = "+end_splitter[0]+", end_time_splitter[0] = "+end_time_splitter[0]);
+
+                        if (end_splitter[0].equals("1900-01-01") && end_time_splitter[0].equals("00:00:00"))
+                        {
+                            holder.action.setImageResource(R.drawable.baseline_info_orange_48);
+                        }
+                        else
+                        {
+                            holder.action.setImageResource(R.drawable.ic_check_green_48dp);
+                        }
+
+                    } else {
+
+                        if (item.isRead_sp()) {
+                            holder.action.setImageResource(R.drawable.baseline_info_orange_48);
+
+                        } else {
+                            holder.action.setImageResource(R.drawable.ic_fiber_new_black_48dp);
+
+                        }
+                    }
+
                 } else {
                     if (date != null) {
                         Calendar c = Calendar.getInstance();
@@ -176,6 +206,14 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
                         String msg = splitter[0] + " " + end_date;
                         holder.date.setText(msg);
                     }
+
+                    if (item.isRead_sp()) {
+                        holder.action.setImageResource(R.drawable.star_green);
+
+                    } else {
+                        holder.action.setImageResource(R.drawable.ic_fiber_new_black_48dp);
+
+                    }
                 }
 
 
@@ -201,13 +239,7 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 
                 //holder.date.setText(item.getDate());
 
-                if (item.isRead_sp()) {
-                    holder.action.setImageResource(R.drawable.star_green);
 
-                } else {
-                    holder.action.setImageResource(R.drawable.ic_fiber_new_black_48dp);
-
-                }
             }
         }
 

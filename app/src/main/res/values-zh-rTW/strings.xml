@@ -37,6 +37,8 @@
     <string name="msg_machine_no">設備代號</string>
     <string name="msg_plant_no">廠區代號</string>
     <string name="msg_announcer">發佈者</string>
+    <string name="msg_end_date">結束時間</string>
+    <string name="msg_emp_name">線管組長</string>
     <string name="date_today">今天</string>
     <string name="date_sunday">星期日</string>
     <string name="date_monday">星期一</string>

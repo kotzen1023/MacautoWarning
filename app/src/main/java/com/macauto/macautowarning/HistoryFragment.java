@@ -311,6 +311,8 @@ public class HistoryFragment extends Fragment {
                         intent.putExtra("HISTORY_INTERNAL_MACHINE_NO", item.getInternal_machine_no());
                         intent.putExtra("HISTORY_INTERNAL_PLANT_NO", item.getInternal_plant_no());
                         intent.putExtra("HISTORY_ANNOUNCER", item.getAnnouncer());
+                        intent.putExtra("HISTORY_END_DATE", item.getEnd_date());
+                        intent.putExtra("HISTORY_LINE_LEADER", item.getEmp_name());
                         intent.putExtra("READ_SP", String.valueOf(item.isRead_sp()));
                         startActivity(intent);
                     }
@@ -463,8 +465,8 @@ public class HistoryFragment extends Fragment {
                             item.setAnnouncer(intent.getExtras().getString("announcer"));
                             item.setIme_code(intent.getExtras().getString("ime_code"));
                             item.setRead_sp(intent.getExtras().getBoolean("read_sp"));
-
-
+                            item.setEnd_date(intent.getExtras().getString("end_date"));
+                            item.setEmp_name(intent.getExtras().getString("emp_name"));
                             historyItemArrayList.add(item);
                         }
 

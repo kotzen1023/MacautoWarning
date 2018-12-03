@@ -68,6 +68,8 @@ public class HistoryShow extends Activity {
         String machine_no = getintent.getStringExtra("HISTORY_INTERNAL_MACHINE_NO");
         String plant_no = getintent.getStringExtra("HISTORY_INTERNAL_PLANT_NO");
         String announcer = getintent.getStringExtra("HISTORY_ANNOUNCER");
+        String end_date = getintent.getStringExtra("HISTORY_END_DATE");
+        String line_leader = getintent.getStringExtra("HISTORY_LINE_LEADER");
         String read_sp = getintent.getStringExtra("READ_SP");
 
 
@@ -83,6 +85,8 @@ public class HistoryShow extends Activity {
         Log.i(TAG, "machine_no = "+machine_no);
         Log.i(TAG, "plant_no = "+plant_no);
         Log.i(TAG, "announcer = "+announcer);
+        Log.i(TAG, "end_date = "+end_date);
+        Log.i(TAG, "line_leader = "+line_leader);
         Log.i(TAG, "read sp = "+read_sp);
 
         try {
@@ -193,6 +197,35 @@ public class HistoryShow extends Activity {
             item11.put("show_msg", announcer);
             items.add(item11);
         }
+
+        if (end_date != null && !end_date.equals("")) {
+            String splitter[] = end_date.split("T");
+            String time_splitter[] = splitter[1].split("\\+");
+
+
+            Map<String, String> item12 = new HashMap<>();
+            item12.put("show_header", getResources().getString(R.string.msg_end_date));
+            item12.put("show_msg", splitter[0]+" "+time_splitter[0]);
+            items.add(item12);
+        } else {
+            Map<String, String> item12 = new HashMap<>();
+            item12.put("show_header", getResources().getString(R.string.msg_end_date));
+            item12.put("show_msg", "");
+            items.add(item12);
+        }
+
+        if (line_leader != null && !line_leader.equals("")) {
+            Map<String, String> item13 = new HashMap<>();
+            item13.put("show_header", getResources().getString(R.string.msg_emp_name));
+            item13.put("show_msg", line_leader);
+            items.add(item13);
+        } else {
+            Map<String, String> item13 = new HashMap<>();
+            item13.put("show_header", getResources().getString(R.string.msg_emp_name));
+            item13.put("show_msg", "");
+            items.add(item13);
+        }
+
 
         SimpleAdapter simpleAdapter = new SimpleAdapter(this,
                 items, R.layout.history_show_item, new String[]{"show_header", "show_msg"},

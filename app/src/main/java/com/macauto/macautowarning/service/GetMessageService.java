@@ -293,6 +293,12 @@ public class GetMessageService extends IntentService {
                                     item.setRead_sp(false);
                                 }
                                 break;
+                            case "end_date":
+                                item.setEnd_date(tag_value);
+                                break;
+                            case "emp_name":
+                                item.setEmp_name(tag_value);
+                                break;
 
                             default:
                                 break;
@@ -315,6 +321,8 @@ public class GetMessageService extends IntentService {
                             intentData.putExtra("announcer", item.getAnnouncer());
                             intentData.putExtra("ime_code", item.getIme_code());
                             intentData.putExtra("read_sp", item.isRead_sp());
+                            intentData.putExtra("end_date", item.getEnd_date());
+                            intentData.putExtra("emp_name", item.getEmp_name());
                             sendBroadcast(intentData);
                         }
                     }

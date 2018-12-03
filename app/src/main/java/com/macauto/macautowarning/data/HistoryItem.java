@@ -15,6 +15,8 @@ public class HistoryItem {
     private String internal_plant_no;
     private String announcer;
     private String ime_code;
+    private String end_date;
+    private String emp_name;
     private boolean read_sp;
 
     public String getMsg_id() {
@@ -111,6 +113,22 @@ public class HistoryItem {
 
     public void setIme_code(String ime_code) {
         this.ime_code = ime_code;
+    }
+
+    public String getEnd_date() {
+        return end_date;
+    }
+
+    public void setEnd_date(String end_date) {
+        this.end_date = end_date;
+    }
+
+    public String getEmp_name() {
+        return emp_name;
+    }
+
+    public void setEmp_name(String emp_name) {
+        this.emp_name = emp_name;
     }
 
     public boolean isRead_sp() {
