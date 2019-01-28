@@ -27,10 +27,10 @@ import java.util.Locale;
 public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
     public static final String TAG = HistoryAdapter.class.getName();
     private Context context;
-    private LayoutInflater inflater = null;
+    private LayoutInflater inflater;
 
     private int layoutResourceId;
-    private ArrayList<HistoryItem> items = new ArrayList<>();
+    private ArrayList<HistoryItem> items;
     //public static SparseBooleanArray mSparseBooleanArray;
     //private static int contact_count = 0;
     private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());

@@ -26,7 +26,7 @@ public class Constants {
         String GET_WHOGOESOUT_LIST_COMPLETE = "com.macauto.MacautoWarning.GetWhoGoesOutListComplete";
 
         String ACTION_LINES_CHANGE = "com.macauto.MacautoWarning.ActionLinesChange";
-        String ACTION_LINES_CHANGE_SHOW = "com.macauto.MacautoWarning.ActionLinesChangShow";
-        String ACTION_LINES_CHANGE_HIDE = "com.macauto.MacautoWarning.ActionLinesChangHide";
+        //String ACTION_LINES_CHANGE_SHOW = "com.macauto.MacautoWarning.ActionLinesChangShow";
+        //String ACTION_LINES_CHANGE_HIDE = "com.macauto.MacautoWarning.ActionLinesChangHide";
     }
 }

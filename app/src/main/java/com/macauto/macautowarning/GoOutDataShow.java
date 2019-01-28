@@ -183,13 +183,27 @@ public class GoOutDataShow extends Activity {
 
             Map<String, String> item7 = new HashMap<>();
             item7.put("show_header", getResources().getString(R.string.car_type));
-            if (car_type.equals("C")) {
+
+            switch (car_type) {
+                case "C":
+                    item7.put("show_msg", getResources().getString(R.string.car_type_company));
+                    break;
+                case "P":
+                    item7.put("show_msg", getResources().getString(R.string.car_type_private));
+                    break;
+
+                default:
+                    item7.put("show_msg", car_type);
+                    break;
+            }
+
+            /*if (car_type.equals("C")) {
                 item7.put("show_msg", getResources().getString(R.string.car_type_company));
             } else if (car_type.equals("P")) {
                 item7.put("show_msg", getResources().getString(R.string.car_type_private));
             } else {
                 item7.put("show_msg", car_type);
-            }
+            }*/
 
             items.add(item7);
         }
@@ -205,13 +219,26 @@ public class GoOutDataShow extends Activity {
             Map<String, String> item9 = new HashMap<>();
             item9.put("show_header", getResources().getString(R.string.car_or_moto));
 
-            if (car_or_moto.equals("C")) {
+            switch (car_or_moto) {
+                case "C":
+                    item9.put("show_msg", getResources().getString(R.string.car_or_moto_car));
+                    break;
+                case "M":
+                    item9.put("show_msg", getResources().getString(R.string.car_or_moto_moto));
+                    break;
+
+                default:
+                    item9.put("show_msg", car_or_moto);
+                    break;
+            }
+
+            /*if (car_or_moto.equals("C")) {
                 item9.put("show_msg", getResources().getString(R.string.car_or_moto_car));
             } else if (car_or_moto.equals("M")) {
                 item9.put("show_msg", getResources().getString(R.string.car_or_moto_moto));
             } else {
                 item9.put("show_msg", car_or_moto);
-            }
+            }*/
 
             items.add(item9);
         }

@@ -18,10 +18,10 @@ import java.util.ArrayList;
 public class GoOutAdapter extends ArrayAdapter<GoOutData> {
     public static final String TAG = GoOutAdapter.class.getName();
     private Context context;
-    private LayoutInflater inflater = null;
+    private LayoutInflater inflater;
 
     private int layoutResourceId;
-    private ArrayList<GoOutData> items = new ArrayList<>();
+    private ArrayList<GoOutData> items;
     //public static SparseBooleanArray mSparseBooleanArray;
     //private static int contact_count = 0;
     //private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.s", Locale.getDefault());
